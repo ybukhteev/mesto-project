@@ -1,0 +1,14 @@
+.profile__name-edit {
+  background-image: url("../../../images/profile__name-edit.svg");
+  background-color: transparent;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  border: 1px solid #fff;
+  box-sizing: border-box;
+  background-position: center;
+}
+
+.profile__name-edit:focus {
+  outline: none;
+}
