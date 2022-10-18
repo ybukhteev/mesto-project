@@ -5,10 +5,22 @@
   height: 24px;
   cursor: pointer;
   border: 1px solid #fff;
-  box-sizing: border-box;
   background-position: center;
+  margin-left: 18px;
+  align-self: end;
+  margin-bottom: 10px;
 }
 
 .profile__name-edit:focus {
   outline: none;
 }
+
+@media screen and (max-width: 767px) {
+  .profile__name-edit {
+    width: 18px;
+    height: 18px;
+    margin-left: 10px;
+    margin-bottom: 8px;
+  }
+}  
+

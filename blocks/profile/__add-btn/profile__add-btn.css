@@ -1,8 +1,16 @@
 .profile__add-btn {
   width: 150px;
   height: 50px;
+  background-image: url('../../../images/profile__add-btn.png');
+  background-repeat: no-repeat;
   background-color: transparent;
+  background-position: 50%;
   border: 1px solid #fff;
   box-sizing: border-box;
-  order: 3;
+  align-self: center;
+}
+
+@media screen and (max-width: 767px) {
+  .profile__add-btn {
+    width: 282px;
 }

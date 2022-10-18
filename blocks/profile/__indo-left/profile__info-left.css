@@ -1,0 +1,6 @@
+.profile__info-left {
+  display: flex;
+  box-sizing: border-box;
+  margin: auto;
+  margin-bottom: 16px;
+}

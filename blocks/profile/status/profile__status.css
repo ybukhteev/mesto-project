@@ -1,3 +1,16 @@
 .profile__status {
-  order:2;  
+  margin: 0;
+  padding: 0;
+  align-items: start;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400l;
+  line-height: 22px;
+}
+
+@media screen and (max-width: 767px) {
+  .profile__status {
+    text-align: center;
+    margin-bottom: 36px;
+  }
 }
