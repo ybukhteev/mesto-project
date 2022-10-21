@@ -1,4 +1,4 @@
-.popup__box {
+.popup__container {
   max-width: 430px;
   width: 100%;
   background-color: #fff;
@@ -11,7 +11,7 @@
 }
 
 @media screen and (max-width: 597px) {
-  .popup__box {
+  .popup__container {
     width: 282px;
     padding: 25px 19px 25px;
   }
