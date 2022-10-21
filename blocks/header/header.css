@@ -4,8 +4,25 @@
   margin: 0 0 40px 0;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 896px) {
   .header {
-    padding-top: 28px;
+    max-width: 580px;
+    margin-left: auto;
+    margin-right: auto;
   }
-}
+
+  @media screen and (max-width: 767px) {
+    .header {
+      padding-top: 28px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    @media screen and (max-width: 597px) {
+      .header {
+        padding-top: 28px;
+        max-width: 282px;
+        margin-left: auto;
+        margin-right: auto;
+      }

@@ -5,7 +5,7 @@
   max-width: 336px;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 896px) {
   .profile__info-wrap {
     margin-left: 19px;
     margin-right: 19px;
