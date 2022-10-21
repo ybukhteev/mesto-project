@@ -1,4 +1,9 @@
 .card__like {
+  background-image: url(../../../images/card__like.svg);
+  background-repeat: no-repeat;
+  background-color: transparent;
+  background-size: cover;
+  border: none;
   width: 22px;
   height: 19px;
   margin-top: 5px;
