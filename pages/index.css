@@ -28,6 +28,7 @@
 @import url(../blocks/card/__desc-wrap/card__desc-wrap.css);
 @import url(../blocks/card/__desc/card__desc.css);
 @import url(../blocks/card/__like/card__like.css);
+@import url(../blocks/card/__like/_active/card__like_active.css);
 
 /*footer_styles*/
 @import url(../blocks/footer/footer.css);
