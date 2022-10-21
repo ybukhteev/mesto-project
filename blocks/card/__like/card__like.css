@@ -9,3 +9,10 @@
 .card__like:hover {
   opacity: 0.5;
 }
+
+
+@media screen and (max-width: 597px) {
+  .card__like {
+    margin-right: 20px;
+  }
+}

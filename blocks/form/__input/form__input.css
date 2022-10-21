@@ -13,3 +13,26 @@
 .form__input:focus {
   outline: none;
 }
+
+.form__input::-webkit-input-placeholder {
+  color: #000;
+}
+
+.form__input::-moz-placeholder {
+  color: #000;
+}
+
+.form__input::-ms-input-placeholder {
+  color: #000;
+}
+
+.form__input::placeholder {
+  color: #000;
+}
+
+@media screen and (max-width: 597px) {
+  .form-input {
+    width: 238px;
+  }
+
+}

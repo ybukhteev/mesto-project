@@ -8,6 +8,8 @@
   line-height: 1.143;
   max-width: 330px;
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 @media screen and (max-width: 767px) {

@@ -6,4 +6,7 @@
   left: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
