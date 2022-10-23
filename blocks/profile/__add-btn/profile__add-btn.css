@@ -13,6 +13,7 @@
 @media screen and (max-width: 767px) {
   .profile__add-btn {
     width: 282px;
+    background-image: url('../../../images/popup__close_m.svg');
   }
 }
 
