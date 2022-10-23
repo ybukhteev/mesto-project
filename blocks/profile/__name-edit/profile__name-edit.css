@@ -9,6 +9,8 @@
   margin-left: 18px;
   align-self: end;
   margin-bottom: 10px;
+  outline: none;
+  flex-shrink: 0;
 }
 
 .profile__name-edit:focus {

@@ -3,10 +3,16 @@
   margin: 0;
   padding: 0;
   color: #545454;
+  font-size: 18px;
+  line-height: 22px;
+  font-style: normal;
+  font-weight: 400;
 }
 
 @media screen and (max-width: 597px) {
   .footer__copyright {
     margin-left: 20px;
+    font-size: 14px;
+    line-height: 17px;
   }
 }

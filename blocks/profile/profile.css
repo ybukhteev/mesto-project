@@ -8,7 +8,6 @@
   .profile {
     max-width: 580px;
     margin: 0 auto;
-    grid-template-columns: 120px auto 150px;
     box-sizing: border-box;
   }
 }

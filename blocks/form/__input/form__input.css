@@ -1,4 +1,5 @@
 .form__input {
+  background: #fff;
   margin: 0;
   padding: 0;
   border: 0;
@@ -8,6 +9,10 @@
   font-size: 14px;
   line-height: 32px;
   color: #000;
+}
+
+.form__input:not(:last-of-type) {
+  margin-bottom: 30px;
 }
 
 .form__input:focus {

@@ -4,7 +4,7 @@
   align-items: start;
   font-size: 18px;
   font-style: normal;
-  font-weight: 400l;
+  font-weight: 400;
   line-height: 22px;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -15,5 +15,7 @@
   .profile__status {
     text-align: center;
     margin-bottom: 36px;
+    font-size: 14px;
+    line-height: 17px;
   }
 }
