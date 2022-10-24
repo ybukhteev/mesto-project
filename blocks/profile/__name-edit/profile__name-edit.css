@@ -1,16 +1,14 @@
 .profile__name-edit {
   background-image: url("../../../images/profile__name-edit.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
   background-color: transparent;
   width: 24px;
   height: 24px;
   cursor: pointer;
   border: 1px solid #fff;
   background-position: center;
-  margin-left: 18px;
-  align-self: end;
-  margin-bottom: 10px;
   outline: none;
-  flex-shrink: 0;
 }
 
 .profile__name-edit:focus {
@@ -21,11 +19,5 @@
   .profile__name-edit {
     width: 18px;
     height: 18px;
-    margin-left: 10px;
-    margin-bottom: 8px;
   }
-}
-
-.profile__name-edit:hover {
-  opacity: 0.6;
 }
