@@ -9,7 +9,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  text-align: center;
+  text-align: left;
 }
 
 @media screen and (max-width: 896px) {
@@ -18,5 +18,11 @@
     line-height: 32.68px;
     margin-bottom: 14px;
     max-width: 189px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .profile__name {
+    text-align: center;
   }
 }

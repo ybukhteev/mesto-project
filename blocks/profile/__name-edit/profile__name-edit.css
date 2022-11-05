@@ -15,9 +15,14 @@
   outline: none;
 }
 
+
 @media screen and (max-width: 767px) {
   .profile__name-edit {
     width: 18px;
     height: 18px;
   }
+}
+
+.profile__name-edit:hover {
+  opacity: 0.6;
 }
