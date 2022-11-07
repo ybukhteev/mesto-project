@@ -30,13 +30,15 @@
     <!-- !the_cards_begin -->
     <!-- !!the_card -->
     <section class="cards">
-      <article class="card">
-        <img src="./images/karachaevsk.jpg" alt="" class="card__img">
-        <div class="card__desc-wrap">
-          <h3 class="card__desc">Карачаевск</h3>
-          <button type="button" class="card__like button"></button>
-        </div>
-      </article>
+      <template id="card-template">
+        <article class="card">
+          <img src="./images/karachaevsk.jpg" alt="" class="card__img">
+          <div class="card__desc-wrap">
+            <h3 class="card__desc">Карачаевск</h3>
+            <button type="button" class="card__like button"></button>
+          </div>
+        </article>
+      </template>
       <!-- !!the_card -->
       <article class="card">
         <img src="./images/elbrus.jpg" alt="" class="card__img">
@@ -84,7 +86,7 @@
     </footer>
   </div>
   <!-- !the_edit-profile_begin -->
-  <section class="popup popup_edit-profile">
+  <section class="popup popup__edit-profile">
     <div class="popup__container">
       <button type="button" class="popup__close button"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
@@ -96,6 +98,22 @@
     </div>
   </section>
   <!-- !the_edit-profile_end -->
+  <!-- !the_add-profile_begin -->
+  <section class="popup popup__add-profile">
+    <div class="popup__container">
+      <button type="button" class="popup__close button"></button>
+      <h2 class="popup__title">Новое место</h2>
+      <form name="edit-form" action="#" class="popup__form form">
+        <input class="form__input" type="text" name="username" id="username" placeholder="Название" required>
+        <input class="form__input" type="text" name="status" id="status" placeholder="Ссылка на карттинку" required>
+        <button class="form__submit button" type="submit">Создать</button>
+      </form>
+    </div>
+  </section>
+  <!-- !the_add-profile_begin -->
+
+  <script src="./script.js"></script>
+
 </body>
 
 </html>
