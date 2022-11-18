@@ -54,7 +54,9 @@ function submitEditProfileForm(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   profileName.textContent = nameInput.value;
   profileStatus.textContent = jobInput.value;
+  evt.target.closest('.popup').classList.remove('popup_opened');
   closePopup(cardPopup);
+  
 }   
 
 //  функция создания карточки
