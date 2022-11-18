@@ -21,19 +21,19 @@
 }
 
 .form__input::-webkit-input-placeholder {
-  color: #000;
+  color: #C4C4C4;
 }
 
 .form__input::-moz-placeholder {
-  color: #000;
+  color: #C4C4C4;
 }
 
 .form__input::-ms-input-placeholder {
-  color: #000;
+  color: #C4C4C4;
 }
 
 .form__input::placeholder {
-  color: #000;
+  color: #C4C4C4;
 }
 
 @media screen and (max-width: 597px) {

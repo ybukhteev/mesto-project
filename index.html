@@ -11,129 +11,123 @@
 
 <body class="page">
   <div class="content">
-    <!-- !the_header_begin -->
+    
+    <!-- header -->
     <header class="header">
       <img src="./images/logo.svg" alt="Логотип" class="header__logo">
     </header>
-    <!-- !the_header_end -->
-    <!-- !the_profile_begin -->
+  
+    <!-- profile section -->
     <section class="profile">
-      <img src="./images/profile__img.png" alt="Аватар" class="profile__avatar">
+      <img src="./images/profile__img.png" alt="Аватар." class="profile__avatar">
       <div class="profile__info">
         <h1 class="profile__name">Жак-Ив Кусто</h1>
-        <button type="button" class="profile__name-edit button"></button>
+        <button type="button" class="profile__name-edit"></button>
         <p class="profile__status">Исследователь океана</p>
       </div>
-      <button type="button" class="profile__add-btn button "></button>
+      <button type="button" class="profile__add-btn"></button>
     </section>
-    <!-- !the_profile_end -->
-    <!-- !the_cards_begin -->
-    <!-- !!the_card -->
+
+    <!-- cards section -->
     <section class="cards">
+      <!-- !card -->
       <article class="card">
-        <img src="./images/karachaevsk.jpg" alt="" class="card__img">
+        <img src="./images/karachaevsk.jpg" alt="Карачаевск." class="card__img">
         <button class="card__trash" type="button"></button>
         <div class="card__desc-wrap">
           <h3 class="card__desc">Карачаево-Черкесcия</h3>
-          <button type="button" class="card__like button"></button>
+          <button type="button" class="card__like"></button>
         </div>
       </article>
-      <!-- !!the_card -->
+      <!-- !card -->
       <article class="card">
-        <img src="./images/elbrus.jpg" alt="" class="card__img">
+        <img src="./images/elbrus.jpg" alt="Гора Эльбрус." class="card__img">
         <button class="card__trash" type="button"></button>
         <div class="card__desc-wrap">
           <h3 class="card__desc">Гора Эльбрус</h3>
-          <button type="button" class="card__like button"></button>
+          <button type="button" class="card__like"></button>
         </div>
       </article>
-      <!-- !!the_card -->
+      <!-- !card -->
       <article class="card">
-        <img src="./images/dombai.jpg" alt="" class="card__img">
+        <img src="./images/dombai.jpg" alt="Домбай." class="card__img">
         <button class="card__trash" type="button"></button>
         <div class="card__desc-wrap">
           <h3 class="card__desc">Домбай</h3>
-          <button type="button" class="card__like button"></button>
+          <button type="button" class="card__like"></button>
         </div>
       </article>
-      <!-- !!the_card -->
+      <!-- !card -->
       <article class="card">
-        <img src="./images/elbrus.jpg" alt="" class="card__img">
+        <img src="./images/elbrus.jpg" alt="Гора Элбьрус." class="card__img">
         <button class="card__trash" type="button"></button>
         <div class="card__desc-wrap">
           <h3 class="card__desc">Гора Эльбрус</h3>
-          <button type="button" class="card__like button"></button>
+          <button type="button" class="card__like"></button>
         </div>
       </article>
-      <!-- !!the_card -->
+      <!-- !card -->
       <article class="card">
-        <img src="./images/dombai.jpg" alt="" class="card__img">
+        <img src="./images/dombai.jpg" alt="Домбай." class="card__img">
         <button class="card__trash" type="button"></button>
         <div class="card__desc-wrap">
           <h3 class="card__desc">Домбай</h3>
-          <button type="button" class="card__like button"></button>
+          <button type="button" class="card__like"></button>
         </div>
       </article>
-      <!-- !!the_card -->
+      <!-- !card -->
       <article class="card">
-        <img src="./images/karachaevsk.jpg" alt="" class="card__img">
+        <img src="./images/karachaevsk.jpg" alt="Карачаевск." class="card__img">
         <button class="card__trash" type="button"></button>
         <div class="card__desc-wrap">
           <h3 class="card__desc">Карачаево-Черкесcия</h3>
-          <button type="button" class="card__like button"></button>
+          <button type="button" class="card__like"></button>
         </div>
       </article>
     </section>
-    <!-- !the_cards_end -->
+
+    <!-- footer -->
     <footer class="footer">
       <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
     </footer>
   </div>
-  <!-- !the_edit-profile_begin -->
-  <section class="popup popup__edit-profile">
+
+  <!-- Секция popup для редактирования профиля -->
+  <section class="popup popup_edit-profile">
     <div class="popup__container">
-      <button type="button" class="popup__close button"></button>
+      <button type="button" class="popup__close"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
-      <form name="edit-form" action="#" class="popup__form form">
-        <input class="form__input" type="text" name="username" id="username" placeholder="Жак-Ив Кусто"
+      <form name="edit-form" action="#" class="formEditProfile form">
+        <input class="form__input" type="text" name="username" id="username" placeholder="Имя"
           value="Жак-Ив Кусто" required>
-        <input class="form__input" type="text" name="status" id="status" placeholder="Исследователь океана"
+        <input class="form__input" type="text" name="status" id="status" placeholder="Вид деятельности"
           value="Исследователь океана" required>
-        <button class="form__submit button" type="submit">Сохранить</button>
+        <button class="form__submit" type="submit">Сохранить</button>
       </form>
     </div>
   </section>
-  <!-- !the_edit-profile_end -->
-  <!-- !the_add-profile_begin -->
-  <section class="popup popup__add-card">
+
+  <!-- popup_add-card section -->
+  <section class="popup popup_add-card">
     <div class="popup__container">
-      <button type="button" class="popup__close button"></button>
+      <button type="button" class="popup__close"></button>
       <h2 class="popup__title">Новое место</h2>
-      <form name="edit-form" action="#" class="popup__form form">
+      <form name="edit-form" action="#" class="formEditProfile form">
         <input class="form__input" type="text" name="username" id="username" placeholder="Название" required>
         <input class="form__input" type="text" name="status" id="status" placeholder="Ссылка на карттинку" required>
-        <button class="form__submit button" type="submit">Создать</button>
+        <button class="form__submit" type="submit">Создать</button>
       </form>
     </div>
   </section>
-  <!-- !the_image-popup_begin -->
-  <section class="popup popup__imgs">
-    <div class="popup__container">
-      <button 
-        type="button" 
-        class="popup__close button"
-      >
-      </button>
-      <img 
-        src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg" 
-        alt="" 
-        class="popup__view"
-      >
-      <h2 class="popup__title">Байкал</h2>
+
+  <!--popup_imgs section -->
+  <section class="popup popup_imgs">
+    <div class="popup_imgs__container">
+      <button type="button" aria-label="Закрыть" class="popup__close"></button>
+      <img src="./images/karachaevsk.jpg" alt="Карачаевск" class="popup__view">
+      <h2 class="popup_imgs__title">Тибет</h2>
     </div>
-    
   </section>
-  <!-- !the_add-profile_begin -->
 
   <template id="card-template">
     <article class="card">
@@ -141,12 +135,13 @@
       <button class="card__trash" type="button"></button>
       <div class="card__desc-wrap">
         <h3 class="card__desc">Карачаевск</h3>
-        <button type="button" class="card__like button"></button>
+        <button type="button" class="card__like"></button>
       </div>
     </article>
   </template>
 
-  <script src="./script.js"></script>
+  <script src="./script/constants.js"></script>
+  <script src="./script/script.js"></script>
 
 </body>
 
