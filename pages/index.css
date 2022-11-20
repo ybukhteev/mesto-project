@@ -1,6 +1,6 @@
 /*root_styles*/
 @import url(../vendor/normalize.css);
-@import url(../blocks/page/page.css); 
+@import url(../blocks/page/page.css);
 
 /*content_styles*/
 @import url(../blocks/content/content.css);
