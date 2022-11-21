@@ -26,6 +26,8 @@ function closePopup(popup) {
 
 //  добавил слушатель событий на кнопку редактирования профиля, передал в него 2 пармаетра - клик и коллбэк
 profileEditBtn.addEventListener('click', function () {
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileStatus.textContent;
   openPopup(profilePopup);
 });
 
@@ -47,8 +49,7 @@ const formElement = document.querySelector('.formEditProfile'); //
 // Находим поля формы в DOM
 const nameInput = document.querySelector('#username');
 const jobInput = document.querySelector('#status');
-nameInput.value = profileName.textContent;
-jobInput.value = profileStatus.textContent;
+
 
 
 //  функция сохранения данных в форму профиля
@@ -69,9 +70,11 @@ formElement.addEventListener('submit', submitEditProfileForm);
 //  функция создания карточки
 function addCard(cardName, cardLink) {
   const cardEl = cardsTemplate.querySelector('.card').cloneNode(true);
-  cardEl.querySelector('.card__img').src = cardLink;
+  const cardImg = cardEl.querySelector('.card__img');
+  cardImg.src = cardLink;
+  cardImg.setAttribute('alt', cardName);
   cardEl.querySelector('.card__desc').textContent = cardName;
-  cardEl.querySelector('.card__img').setAttribute('alt', cardName);
+  
 
   //  добавление / удаление лайка по клику на соответствующую иконку
   cardEl.querySelector('.card__like').addEventListener('click', (evt) => {
