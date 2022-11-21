@@ -40,24 +40,25 @@ buttonClose.forEach(btn => {
   btn.addEventListener('click', () => closePopup(popup));
 })
 
-
+//  нашел форму
 const formElement = document.querySelector('.formEditProfile'); //
-// Находим поля формы в DOM
+// нашел поля формы в DOM 
 const nameInput = document.querySelector('#username');
 const jobInput = document.querySelector('#status');
 
 
-//  функция сохранения данных в форму профиля
-formElement.addEventListener('submit', submitEditProfileForm);
 
+//  обработчик отправки формы
 function submitEditProfileForm(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   profileName.textContent = nameInput.value;
   profileStatus.textContent = jobInput.value;
   evt.target.closest('.popup').classList.remove('popup_opened');
   closePopup(cardPopup);
-  
 }   
+
+//  функция сохранения данных в форму профиля
+formElement.addEventListener('submit', submitEditProfileForm);
 
 //  функция создания карточки
 function addCard(cardName, cardLink) {
