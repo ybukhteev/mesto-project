@@ -96,7 +96,6 @@ const toggleButtonState = (inputList, buttonElement) => {
   }
 }; 
 
-
 const setEventListeners = (formElement) => {
   // Найдём все поля формы и сделаем из них массив
 const inputList = Array.from(formElement.querySelectorAll(`.form__input`));
@@ -115,7 +114,6 @@ inputList.forEach((inputElement) => {
 });
 }; 
 
-
 const enableValidation = () => {
   // Найдём все формы с указанным классом в DOM,
   // сделаем из них массив методом Array.from
@@ -128,9 +126,6 @@ const enableValidation = () => {
     setEventListeners(formElement);
   });
 };
-
-// Вызовем функцию isValid на каждый ввод символа
-formInput.addEventListener('input', isValid); 
 
 // Вызовем функцию
 enableValidation(); 
