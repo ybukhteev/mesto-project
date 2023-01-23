@@ -31,26 +31,122 @@ profileEditBtn.addEventListener('click', function () {
   openPopup(profilePopup);
 });
 
+
+const formElement = document.querySelector('.form');
+const formInput = formElement.querySelector('.form__input');
+const nameInput = document.querySelector('#username');
+const jobInput = document.querySelector('#status');
+
+const showInputError = (formElement, inputElement, errorMessage) => {
+  // Находим элемент ошибки внутри самой функции
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  // Остальной код такой же
+  inputElement.classList.add('form__input_type_error');
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add('form__input-error_active');
+};
+
+const hideInputError = (formElement, inputElement) => {
+  // Находим элемент ошибки
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  // Остальной код такой же
+  inputElement.classList.remove('form__input_type_error');
+  errorElement.classList.remove('form__input-error_active');
+  errorElement.textContent = '';
+}; 
+
+
+// Функция, которая проверяет валидность поля
+const isValid = (formElement, inputElement) => {
+    if (inputElement.validity.patternMismatch) {
+        // данные атрибута доступны у элемента инпута через ключевое слово dataset.
+        // обратите внимание, что в js имя атрибута пишется в camelCase (да-да, в
+        // HTML мы писали в kebab-case, это не опечатка)
+    inputElement.setCustomValidity(inputElement.dataset.errorMessage);
+  } else {
+    inputElement.setCustomValidity("");
+  }
+
+  if (!inputElement.validity.valid) {
+    showInputError(formElement, inputElement, inputElement.validationMessage);
+  } else {
+    hideInputError(formElement, inputElement);
+  }
+}; 
+
+const hasInvalidInput = (inputList) => {
+  return inputList.some((inputElement) => {
+    return !inputElement.validity.valid;
+  })
+}; 
+
+// Функция принимает массив полей ввода
+// и элемент кнопки, состояние которой нужно менять
+
+const toggleButtonState = (inputList, buttonElement) => {
+  // Если есть хотя бы один невалидный инпут
+  if (hasInvalidInput(inputList)) {
+    // сделай кнопку неактивной
+        buttonElement.disabled = true;
+    buttonElement.classList.add('form__submit_inactive');
+  } else {
+        // иначе сделай кнопку активной
+        buttonElement.disabled = false;
+    buttonElement.classList.remove('form__submit_inactive');
+  }
+}; 
+
+
+const setEventListeners = (formElement) => {
+  // Найдём все поля формы и сделаем из них массив
+const inputList = Array.from(formElement.querySelectorAll(`.form__input`));
+  // Найдём в текущей форме кнопку отправки
+const buttonElement = formElement.querySelector('.form__submit');
+
+toggleButtonState(inputList, buttonElement);
+
+inputList.forEach((inputElement) => {
+  inputElement.addEventListener('input', () => {
+    isValid(formElement, inputElement);
+
+          // Вызовем toggleButtonState и передадим ей массив полей и кнопку
+    toggleButtonState(inputList, buttonElement);
+  });
+});
+}; 
+
+
+const enableValidation = () => {
+  // Найдём все формы с указанным классом в DOM,
+  // сделаем из них массив методом Array.from
+  const formList = Array.from(document.querySelectorAll('.form'));
+
+  // Переберём полученную коллекцию
+  formList.forEach((formElement) => {
+    // Для каждой формы вызовем функцию setEventListeners,
+    // передав ей элемент формы
+    setEventListeners(formElement);
+  });
+};
+
+// Вызовем функцию isValid на каждый ввод символа
+formInput.addEventListener('input', isValid); 
+
+// Вызовем функцию
+enableValidation(); 
+
+
+
 //  добавил слушатель событий на кнопку добавления профиля, переда в него 2 параметра - клик и коллбэк
 cardAddBtn.addEventListener('click', function () {
   openPopup(cardPopup);
 });
-
-
 
 // запуск forEach для прохождения по кнопкам закрытия попапов
 buttonClosePopup.forEach(btn => {
   const popup = btn.closest('.popup');
   btn.addEventListener('click', () => closePopup(popup));
 })
-
-
-const formElement = document.querySelector('.formEditProfile'); //
-// Находим поля формы в DOM
-const nameInput = document.querySelector('#username');
-const jobInput = document.querySelector('#status');
-
-
 
 //  функция сохранения данных в форму профиля
 formElement.addEventListener('submit', submitEditProfileForm);

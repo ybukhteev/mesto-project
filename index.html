@@ -43,12 +43,35 @@
     <div class="popup__container">
       <button type="button" class="popup__close"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
-      <form name="edit-form" action="#" class="formEditProfile form">
-        <input class="form__input" type="text" name="username" id="username" placeholder="Имя"
-          value="Жак-Ив Кусто" required>
-        <input class="form__input" type="text" name="status" id="status" placeholder="Вид деятельности"
-          value="Исследователь океана" required>
+      <form name="edit-form" action="#" class="form formEditProfile" novalidate>
+        <input
+          class="form__input"
+          type="text"
+          name="username"
+          id="username"
+          placeholder="Имя"
+          value="""
+          minlength="2"
+          maxlength="40"
+          pattern="^[A-Za-zА-Яа-яЁё\s\-]+$"
+          data-error-message="Разрешены только латинские буквы, кириллические буквы, знаки дефиса и пробелы"
+          required>
+        <span class="username-input-error form__input-error"></span>
+        <input 
+          class="form__input"
+          type="text"
+          name="status"
+          id="status"
+          placeholder="Вид деятельности"
+          value="Исследователь океана"
+          minlength="2"
+          maxlength="200"
+          pattern="^[A-Za-zА-Яа-яЁё\s\-]+$"
+          data-error-message="Разрешены только латинские буквы, кириллические буквы, знаки дефиса и пробелы"
+          required>
+        <span class="status-input-error form__input-error"></span>
         <button class="form__submit" type="submit">Сохранить</button>
+        
       </form>
     </div>
   </section>
@@ -58,9 +81,9 @@
     <div class="popup__container">
       <button type="button" class="popup__close"></button>
       <h2 class="popup__title">Новое место</h2>
-      <form name="edit-form" action="#" class="formEditProfile form">
+      <form name="edit-form" action="#" class="formEditProfile form" novalidate>
         <input class="form__input" type="text" name="username" id="username" placeholder="Название" required>
-        <input class="form__input" type="text" name="status" id="status" placeholder="Ссылка на карттинку" required>
+        <input class="form__input" type="text" name="status" id="status" placeholder="Ссылка на картинку"   required>
         <button class="form__submit" type="submit">Создать</button>
       </form>
     </div>
