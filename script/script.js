@@ -13,43 +13,41 @@ const popupImgsTitle = document.querySelector('.popup_imgs__title');
 const cardsSection = document.querySelector('.cards');
 const cardUserName = cardPopup.querySelector('.form__input[name="username"]');
 const cardStatus = cardPopup.querySelector('.form__input[name="status"]');
+const formElement = document.querySelector('.form');
+const inputElement = formElement.querySelector('.form__input');
+const nameInput = document.querySelector('#name');
+const jobInput = document.querySelector('#description');
+const popupList = document.querySelectorAll('.popup');
 
-//  функция открытия попапа
+// добавил функцию открытия popup
 function openPopup(popup) {
   popup.classList.add('popup_opened');
 }
 
-// Функция закрытия попапов
+// добавил функция закрытия popup
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
 }
 
-//  добавил слушатель событий на кнопку редактирования профиля, передал в него 2 пармаетра - клик и коллбэк
+// добавил слушателя на событе клик по кнопке редактирования профиля, в качестве коллбэка добавил функцию
 profileEditBtn.addEventListener('click', function () {
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileStatus.textContent;
-  openPopup(profilePopup);
+  nameInput.value = profileName.textContent; // добавил в содержимое элемента строковое значение, представляющее значение текущего узла
+  jobInput.value = profileStatus.textContent; // добавил в содержимое элемента строковое значение, представляющее значение текущего узла
+  openPopup(profilePopup);  // вызвал функцию открытию popup и в качестве параметра передал ей popup редактирования профиля
 });
-
-
-const formElement = document.querySelector('.form');
-const formInput = formElement.querySelector('.form__input');
-const nameInput = document.querySelector('#username');
-const jobInput = document.querySelector('#status');
 
 const showInputError = (formElement, inputElement, errorMessage) => {
   // Находим элемент ошибки внутри самой функции
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   // Остальной код такой же
-  inputElement.classList.add('form__input_type_error');
-  errorElement.textContent = errorMessage;
   errorElement.classList.add('form__input-error_active');
+  inputElement.classList.add('form__input_type_error');
+  
+  errorElement.textContent = errorMessage;
 };
 
 const hideInputError = (formElement, inputElement) => {
-  // Находим элемент ошибки
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  // Остальной код такой же
   inputElement.classList.remove('form__input_type_error');
   errorElement.classList.remove('form__input-error_active');
   errorElement.textContent = '';
@@ -58,20 +56,23 @@ const hideInputError = (formElement, inputElement) => {
 
 // Функция, которая проверяет валидность поля
 const isValid = (formElement, inputElement) => {
-    if (inputElement.validity.patternMismatch) {
-        // данные атрибута доступны у элемента инпута через ключевое слово dataset.
-        // обратите внимание, что в js имя атрибута пишется в camelCase (да-да, в
-        // HTML мы писали в kebab-case, это не опечатка)
-    inputElement.setCustomValidity(inputElement.dataset.errorMessage);
-  } else {
-    inputElement.setCustomValidity("");
-  }
+  if (inputElement.validity.patternMismatch) {
+      // встроенный метод setCustomValidity принимает на вход строку
+      // и заменяет ею стандартное сообщение об ошибке
+  inputElement.setCustomValidity(inputElement.dataset.errorMessage);
+} else {
+      // если передать пустую строку, то будут доступны
+      // стандартные браузерные сообщения
+  inputElement.setCustomValidity("");
+}
 
-  if (!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, inputElement.validationMessage);
-  } else {
-    hideInputError(formElement, inputElement);
-  }
+if (!inputElement.validity.valid) {
+  // теперь, если ошибка вызвана регулярным выражением,
+      // переменная validationMessage хранит наше кастомное сообщение
+  showInputError(formElement, inputElement, inputElement.validationMessage);
+} else {
+  hideInputError(formElement, inputElement);
+}
 }; 
 
 const hasInvalidInput = (inputList) => {
@@ -98,18 +99,19 @@ const toggleButtonState = (inputList, buttonElement) => {
 
 const setEventListeners = (formElement) => {
   // Найдём все поля формы и сделаем из них массив
-const inputList = Array.from(formElement.querySelectorAll(`.form__input`));
+const inputList = Array.from(formElement.querySelectorAll('.form__input'));
   // Найдём в текущей форме кнопку отправки
 const buttonElement = formElement.querySelector('.form__submit');
-
+// Вызовем toggleButtonState, чтобы не ждать ввода данных в поля
 toggleButtonState(inputList, buttonElement);
 
 inputList.forEach((inputElement) => {
   inputElement.addEventListener('input', () => {
+    toggleButtonState(inputList, buttonElement);
     isValid(formElement, inputElement);
 
           // Вызовем toggleButtonState и передадим ей массив полей и кнопку
-    toggleButtonState(inputList, buttonElement);
+   
   });
 });
 }; 
@@ -135,6 +137,7 @@ enableValidation();
 //  добавил слушатель событий на кнопку добавления профиля, переда в него 2 параметра - клик и коллбэк
 cardAddBtn.addEventListener('click', function () {
   openPopup(cardPopup);
+  document.addEventListener('keydown', closeByEsc);
 });
 
 // запуск forEach для прохождения по кнопкам закрытия попапов
@@ -142,6 +145,22 @@ buttonClosePopup.forEach(btn => {
   const popup = btn.closest('.popup');
   btn.addEventListener('click', () => closePopup(popup));
 })
+
+// зыкрытие popup по клавише ESC
+function closeByEsc(evt) {
+  const openedPopup = document.querySelector('.popup_opened');
+  if ( evt.key === 'Escape') {
+    closePopup(openedPopup);
+  }
+}
+
+popupList.forEach(item => (
+  item.addEventListener('click', (evt) => {
+    if (evt.target === item) {
+      closePopup(item);
+    }
+  })
+));
 
 //  функция сохранения данных в форму профиля
 formElement.addEventListener('submit', submitEditProfileForm);
@@ -152,6 +171,7 @@ function submitEditProfileForm(evt) {
   profileStatus.textContent = jobInput.value;
   evt.target.closest('.popup').classList.remove('popup_opened');
   closePopup(cardPopup);
+
   
 }   
 
@@ -180,7 +200,7 @@ function addCard(cardName, cardLink) {
     openElementPopup(evt.target.src, cardName);
   })
 
-  return (cardEl);
+  return(cardEl);
 }
 
 // ПОПАП КАРТИНКИ
@@ -206,7 +226,7 @@ function renderCard(card) {
   cardsSection.prepend(card);
 }
 
-const formCardAdd = cardPopup.querySelector('.formEditProfile');
+const formCardAdd = cardPopup.querySelector('.formAddCard');
 formCardAdd.addEventListener('submit', handleFormSubmitCardAdd);
 
 function handleFormSubmitCardAdd(evt) {
