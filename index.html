@@ -55,7 +55,7 @@
           pattern="^[A-Za-zА-Яа-яЁё\s\-]+$"
           data-error-message="Разрешены только латинские буквы, кириллические буквы, знаки дефиса и пробелы"
           required>
-          <span class="name-input-error form__input-error"></span>
+          <span class="name-error form__input-error"></span>
         <input id="description"
           class="form__input"
           type="text"
@@ -67,9 +67,8 @@
           pattern="^[A-Za-zА-Яа-яЁё\s\-]+$"
           data-error-message="Разрешены только латинские буквы, кириллические буквы, знаки дефиса и пробелы"
           required>
-          <span class="description-input-error form__input-error"></span>
+          <span class="description-error form__input-error"></span>
         <button class="form__submit" type="submit">Сохранить</button>
-        
       </form>
     </div>
   </section>
@@ -80,10 +79,26 @@
       <button type="button" class="popup__close"></button>
       <h2 class="popup__title">Новое место</h2>
       <form name="add-form" action="#" class="formAddCard form" novalidate>
-        <input class="form__input" type="text" name="username" id="username" placeholder="Название" required>
-        <span class="form__input-error"></span>
-        <input class="form__input" type="text" name="status" id="status" placeholder="Ссылка на картинку"   required>
-        <span class="form__input-error"></span>
+        <input 
+          class="form__input" 
+          type="text"
+          name="cardname"
+          id="cardname"
+          placeholder="Название"
+          minlength="2"
+          maxlength="30"
+          pattern="^[A-Za-zА-Яа-яЁё\s\-]+$"
+          data-error-message="Разрешены только латинские буквы, кириллические буквы, знаки дефиса и пробелы"
+          required>
+        <span class="cardname-error form__input-error"></span>
+        <input 
+          class="form__input"
+          type="url" 
+          name="url"
+          id="url"
+          placeholder="Ссылка на картинку"
+          required>
+        <span class="url-error form__input-error"></span>
         <button class="form__submit" type="submit">Создать</button>
       </form>
     </div>

@@ -11,23 +11,35 @@ const popupView = document.querySelector('.popup__view');
 const cardsTemplate = document.querySelector('#card-template').content;
 const popupImgsTitle = document.querySelector('.popup_imgs__title');
 const cardsSection = document.querySelector('.cards');
-const cardUserName = cardPopup.querySelector('.form__input[name="username"]');
-const cardStatus = cardPopup.querySelector('.form__input[name="status"]');
+const cardUserName = cardPopup.querySelector('.form__input[name="cardname"]');
+const cardStatus = cardPopup.querySelector('.form__input[name="url"]');
 const formElement = document.querySelector('.form');
 const inputElement = formElement.querySelector('.form__input');
 const nameInput = document.querySelector('#name');
 const jobInput = document.querySelector('#description');
 const popupList = document.querySelectorAll('.popup');
 
+
+// зыкрытие popup по клавише ESC
+function closeByEsc(evt) {
+  if ( evt.keyCode === 27) {
+    const openPopup = document.querySelector('.popup_opened');
+    closePopup(openPopup);
+  }
+}
+
 // добавил функцию открытия popup
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  document.addEventListener('keydown', closeByEsc);
 }
 
 // добавил функция закрытия popup
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closeByEsc);
 }
+
 
 // добавил слушателя на событе клик по кнопке редактирования профиля, в качестве коллбэка добавил функцию
 profileEditBtn.addEventListener('click', function () {
@@ -146,13 +158,7 @@ buttonClosePopup.forEach(btn => {
   btn.addEventListener('click', () => closePopup(popup));
 })
 
-// зыкрытие popup по клавише ESC
-function closeByEsc(evt) {
-  const openedPopup = document.querySelector('.popup_opened');
-  if ( evt.key === 'Escape') {
-    closePopup(openedPopup);
-  }
-}
+
 
 popupList.forEach(item => (
   item.addEventListener('click', (evt) => {
@@ -236,3 +242,4 @@ function handleFormSubmitCardAdd(evt) {
   cardStatus.value = '';
   closePopup(cardPopup);
 }
+
