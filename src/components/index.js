@@ -1,4 +1,4 @@
-import '../../pages/index.css';
+import '../pages/index.css';
 
 import {
   profileEditBtn,
@@ -8,14 +8,20 @@ import {
   profileName,
   profileStatus,
   cardPopup,
-  formElement
-} from './constnts.js';
+  formElement,
+  cardAddBtn,
+  formAddCard,
+  cardUserName,
+  cardStatus,
+  submitButton
+,} from './constnts.js';
 
 
-import { openPopup, closePopup } from './modal.js';
+import { openPopup, closePopup, closeByEsc} from './modal.js';
 import { addCard, renderCard } from './card';
 import { enableValidation } from './validate.js';
 import { settings } from './utils.js';
+
 
 function handleFormSubmitCardAdd(evt) {
   evt.preventDefault();
@@ -25,12 +31,12 @@ function handleFormSubmitCardAdd(evt) {
   closePopup(cardPopup);
 }
 
-formCardAdd.addEventListener('submit', handleFormSubmitCardAdd);
+formAddCard.addEventListener('submit', handleFormSubmitCardAdd);
 
 // добавил слушателя на событе клик по кнопке редактирования профиля, в качестве коллбэка добавил функцию
 profileEditBtn.addEventListener('click', function () {
-  nameInput.value = profileName.textContent; // добавил в содержимое элемента строковое значение, представляющее значение текущего узла
-  jobInput.value = profileStatus.textContent; // добавил в содержимое элемента строковое значение, представляющее значение текущего узла
+  //nameInput.value = profileName.textContent; // добавил в содержимое элемента строковое значение, представляющее значение текущего узла
+  //jobInput.value = profileStatus.textContent; // добавил в содержимое элемента строковое значение, представляющее значение текущего узла
   openPopup(profilePopup);  // вызвал функцию открытию popup и в качестве параметра передал ей popup редактирования профиля
 });
 
@@ -44,5 +50,10 @@ function submitEditProfileForm(evt) {
 
 //  функция сохранения данных в форму профиля
 formElement.addEventListener('submit', submitEditProfileForm);
+
+cardAddBtn.addEventListener('click', function () {
+  openPopup(cardPopup);
+  document.addEventListener('keydown', closeByEsc);
+});
 
 enableValidation(settings);

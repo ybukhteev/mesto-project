@@ -1,4 +1,4 @@
-import {buttonClosePopup, popupList, popupImgsTitle, popupView } from './constnts.js';
+import {buttonClosePopup, popupList, popupImgs, popupImgsTitle, popupView, submitButton } from './constnts.js';
 
 // добавил функцию открытия popup
 export function openPopup(popup) {
@@ -9,8 +9,7 @@ export function openPopup(popup) {
 // добавил функция закрытия popup
 export function closePopup(popup) {
   popup.classList.remove('popup_opened');
-  document.remove
-  EventListener('keydown', closeByEsc);
+  document.removeEventListener('keydown', closeByEsc);
 }
 
 export function openElementPopup(cardLink, cardName) {
@@ -21,7 +20,7 @@ export function openElementPopup(cardLink, cardName) {
 }
 
 // зыкрытие popup по клавише ESC
-function closeByEsc(evt) {
+export function closeByEsc(evt) {
   if ( evt.keyCode === 27) {
     const openPopup = document.querySelector('.popup_opened');
     closePopup(openPopup);
