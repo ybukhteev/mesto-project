@@ -1,10 +1,32 @@
-import {
-  cardsSection,
-  cardPopup,
-  cardUserName,
-  cardStatus,
-  formCardAdd
-} from './constnts';
+import { cardsTemplate, cardsSection} from './constnts.js';
+import { openElementPopup } from './modal.js';
+
+const initialCards = [
+  {
+    name: 'Архыз',
+    link: 'https://vsegda-pomnim.com/uploads/posts/2022-04/1648761617_81-vsegda-pomnim-com-p-sofiiskie-ozera-arkhiz-foto-86.png'
+  },
+  { 
+    name: 'Мурманская область',
+    link: 'https://photocentra.ru/images/main89/892236_main.jpg'
+  },
+  {
+    name: 'Соловки',
+    link: 'https://photocentra.ru/images/main47/476758_main.jpg'
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+    name: 'Москва Сити',
+    link: 'https://phonoteka.org/uploads/posts/2021-06/1624353296_15-phonoteka_org-p-moskva-siti-oboi-krasivo-15.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+];
 
 //  функция добавления исходнго массива карточек
 function renderInitialCards(cards) {
@@ -16,23 +38,12 @@ function renderInitialCards(cards) {
 
 renderInitialCards(initialCards);
 
-function handleFormSubmitCardAdd(evt) {
-  evt.preventDefault();
-  renderCard(addCard(cardUserName.value, cardStatus.value));
-  cardUserName.value = '';
-  cardStatus.value = '';
-  closePopup(cardPopup);
-}
-
 //  функция рендеринга карточек в контейнере
-function renderCard(card) {
+export function renderCard(card) {
   cardsSection.prepend(card);
 }
 
-
-formCardAdd.addEventListener('submit', handleFormSubmitCardAdd);
-
-function addCard(cardName, cardLink) {
+export function addCard(cardName, cardLink) {
   const cardEl = cardsTemplate.querySelector('.card').cloneNode(true);
   const cardImg = cardEl.querySelector('.card__img');
   cardImg.src = cardLink;
@@ -55,3 +66,10 @@ function addCard(cardName, cardLink) {
 
   return(cardEl);
 }
+
+cardAddBtn.addEventListener('click', function () {
+  openPopup(cardPopup);
+  document.addEventListener('keydown', closeByEsc);
+});
+
+

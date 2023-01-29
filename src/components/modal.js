@@ -1,13 +1,23 @@
+import {buttonClosePopup, popupList, popupImgsTitle, popupView } from './constnts.js';
+
 // добавил функцию открытия popup
-function openPopup(popup) {
+export function openPopup(popup) {
   popup.classList.add('popup_opened');
   document.addEventListener('keydown', closeByEsc);
 }
 
 // добавил функция закрытия popup
-function closePopup(popup) {
+export function closePopup(popup) {
   popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closeByEsc);
+  document.remove
+  EventListener('keydown', closeByEsc);
+}
+
+export function openElementPopup(cardLink, cardName) {
+  openPopup(popupImgs);
+  popupImgsTitle.textContent = cardName;
+  popupView.src = cardLink;
+  popupView.alt = cardName;
 }
 
 // зыкрытие popup по клавише ESC
@@ -32,16 +42,5 @@ popupList.forEach(item => (
   })
 ));
 
-cardAddBtn.addEventListener('click', function () {
-  openPopup(cardPopup);
-  document.addEventListener('keydown', closeByEsc);
-});
 
-// ПОПАП КАРТИНКИ
-// Функция открытия попап с картинкой
-function openElementPopup(cardLink, cardName) {
-  openPopup(popupImgs);
-  popupImgsTitle.textContent = cardName;
-  popupView.src = cardLink;
-  popupView.alt = cardName;
-}
+

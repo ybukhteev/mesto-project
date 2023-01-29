@@ -11,9 +11,21 @@ import {
   formElement
 } from './constnts.js';
 
-import {
-  enableValidation
-} from './constants.js';
+
+import { openPopup, closePopup } from './modal.js';
+import { addCard, renderCard } from './card';
+import { enableValidation } from './validate.js';
+import { settings } from './utils.js';
+
+function handleFormSubmitCardAdd(evt) {
+  evt.preventDefault();
+  renderCard(addCard(cardUserName.value, cardStatus.value));
+  cardUserName.value = '';
+  cardStatus.value = '';
+  closePopup(cardPopup);
+}
+
+formCardAdd.addEventListener('submit', handleFormSubmitCardAdd);
 
 // добавил слушателя на событе клик по кнопке редактирования профиля, в качестве коллбэка добавил функцию
 profileEditBtn.addEventListener('click', function () {
@@ -33,11 +45,4 @@ function submitEditProfileForm(evt) {
 //  функция сохранения данных в форму профиля
 formElement.addEventListener('submit', submitEditProfileForm);
 
-enableValidation({
-  formSelector: '.form',
-  inputSelector: '.form__input',
-  submitButtonSelector: '.form__submit',
-  inactiveButtonClass: 'form__submit_inactive',
-  inputErrorClass: 'form__input_type_error',
-  errorClass: 'form__input-error_active'
-}); 
+enableValidation(settings);

@@ -1,3 +1,5 @@
+import { settings } from './utils.js';
+
 const showInputError = (formElement, inputElement, errorMessage) => {
   // Находим элемент ошибки внутри самой функции
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
@@ -45,24 +47,24 @@ const hasInvalidInput = (inputList) => {
 // Функция принимает массив полей ввода
 // и элемент кнопки, состояние которой нужно менять
 
-const toggleButtonState = (inputList, buttonElement) => {
+export const toggleButtonState = (inputList, buttonElement) => {
   // Если есть хотя бы один невалидный инпут
   if (hasInvalidInput(inputList)) {
     // сделай кнопку неактивной
         buttonElement.disabled = true;
-    buttonElement.classList.add('form__submit_inactive');
+    buttonElement.classList.add(settings.inactiveButtonClass);
   } else {
         // иначе сделай кнопку активной
         buttonElement.disabled = false;
-    buttonElement.classList.remove('form__submit_inactive');
+    buttonElement.classList.remove(settings.inactiveButtonClass);
   }
 }; 
 
 const setEventListeners = (formElement) => {
   // Найдём все поля формы и сделаем из них массив
-const inputList = Array.from(formElement.querySelectorAll('.form__input'));
+const inputList = Array.from(formElement.querySelectorAll(settings.inputSelector));
   // Найдём в текущей форме кнопку отправки
-const buttonElement = formElement.querySelector('.form__submit');
+const buttonElement = formElement.querySelector(settings.submitButtonSelector);
 // Вызовем toggleButtonState, чтобы не ждать ввода данных в поля
 toggleButtonState(inputList, buttonElement);
 
@@ -74,15 +76,9 @@ inputList.forEach((inputElement) => {
 });
 }; 
 
-export const enableValidation = () => {
-  // Найдём все формы с указанным классом в DOM,
-  // сделаем из них массив методом Array.from
-  const formList = Array.from(document.querySelectorAll('.form'));
-
-  // Переберём полученную коллекцию
+export const enableValidation = (settings) => {
+  const formList = Array.from(document.querySelectorAll(settings.formSelector));
   formList.forEach((formElement) => {
-    // Для каждой формы вызовем функцию setEventListeners,
-    // передав ей элемент формы
     setEventListeners(formElement);
   });
 };
