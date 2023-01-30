@@ -41,11 +41,11 @@ profileEditBtn.addEventListener('click', function () {
   openPopup(profilePopup);  // вызвал функцию открытию popup и в качестве параметра передал ей popup редактирования профиля
 });
 
-function submitEditProfileForm(evt) {
+function submitEditProfileForm(evt) { 
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   profileName.textContent = nameInput.value;
   profileStatus.textContent = jobInput.value;
-  closePopup(cardPopup);
+  closePopup(profilePopup);
 }   
 
 //  функция сохранения данных в форму профиля
