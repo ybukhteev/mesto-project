@@ -21,7 +21,7 @@ export function openElementPopup(cardLink, cardName) {
 
 // зыкрытие popup по клавише ESC
 export function closeByEsc(evt) {
-  if ( evt.keyCode === 27) {
+  if ( evt.key === 'Escape') {
     const openPopup = document.querySelector('.popup_opened');
     closePopup(openPopup);
   }

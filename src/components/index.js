@@ -17,7 +17,7 @@ import {
 } from './constnts.js';
 
 
-import { openPopup, closePopup, closeByEsc} from './modal.js';
+import { openPopup, closePopup} from './modal.js';
 import { addCard, renderCard } from './card';
 import { enableValidation } from './validate.js';
 import { settings} from './utils.js';
@@ -26,8 +26,7 @@ import { settings} from './utils.js';
 function handleFormSubmitCardAdd(evt) {
   evt.preventDefault();
   renderCard(addCard(cardUserName.value, cardStatus.value));
-  cardUserName.value = '';
-  cardStatus.value = '';
+  evt.target.reset();
   closePopup(cardPopup);
   formSubmit.setAttribute('disabled', true);
   formSubmit.classList.add('form__submit_inactive');
@@ -46,7 +45,6 @@ function submitEditProfileForm(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   profileName.textContent = nameInput.value;
   profileStatus.textContent = jobInput.value;
-  evt.target.closest('.popup').classList.remove('popup_opened');
   closePopup(cardPopup);
 }   
 
@@ -55,7 +53,6 @@ formElement.addEventListener('submit', submitEditProfileForm);
 
 cardAddBtn.addEventListener('click', function () {
   openPopup(cardPopup);
-  document.addEventListener('keydown', closeByEsc);
 });
 
 enableValidation(settings);
