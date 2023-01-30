@@ -10,17 +10,17 @@ import {
   cardPopup,
   formElement,
   cardAddBtn,
-  formAddCard,
   cardUserName,
   cardStatus,
-  submitButton
-,} from './constnts.js';
+  formAddCard,
+  formSubmit
+} from './constnts.js';
 
 
 import { openPopup, closePopup, closeByEsc} from './modal.js';
 import { addCard, renderCard } from './card';
 import { enableValidation } from './validate.js';
-import { settings } from './utils.js';
+import { settings} from './utils.js';
 
 
 function handleFormSubmitCardAdd(evt) {
@@ -29,14 +29,16 @@ function handleFormSubmitCardAdd(evt) {
   cardUserName.value = '';
   cardStatus.value = '';
   closePopup(cardPopup);
+  formSubmit.setAttribute('disabled', true);
+  formSubmit.classList.add('form__submit_inactive');
 }
 
 formAddCard.addEventListener('submit', handleFormSubmitCardAdd);
 
 // добавил слушателя на событе клик по кнопке редактирования профиля, в качестве коллбэка добавил функцию
 profileEditBtn.addEventListener('click', function () {
-  //nameInput.value = profileName.textContent; // добавил в содержимое элемента строковое значение, представляющее значение текущего узла
-  //jobInput.value = profileStatus.textContent; // добавил в содержимое элемента строковое значение, представляющее значение текущего узла
+  nameInput.value = profileName.textContent; // добавил в содержимое элемента строковое значение, представляющее значение текущего узла
+  jobInput.value = profileStatus.textContent; // добавил в содержимое элемента строковое значение, представляющее значение текущего узла
   openPopup(profilePopup);  // вызвал функцию открытию popup и в качестве параметра передал ей popup редактирования профиля
 });
 

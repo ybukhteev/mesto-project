@@ -1,4 +1,4 @@
-import {buttonClosePopup, popupList, popupImgs, popupImgsTitle, popupView, submitButton } from './constnts.js';
+import {buttonClosePopup, popupList, popupImgs, popupImgsTitle, popupView } from './constnts.js';
 
 // добавил функцию открытия popup
 export function openPopup(popup) {

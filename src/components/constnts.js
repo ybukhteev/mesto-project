@@ -18,3 +18,5 @@ export const nameInput = document.querySelector('#name');
 export const jobInput = document.querySelector('#description');
 export const popupList = document.querySelectorAll('.popup');
 export const formAddCard = cardPopup.querySelector('.formAddCard');
+export const formSubmit = document.querySelector('.form__submit-add');
+console.log(formSubmit);
