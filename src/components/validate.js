@@ -71,7 +71,7 @@ toggleButtonState(inputList, buttonElement, settings);
 inputList.forEach((inputElement) => {
   inputElement.addEventListener('input', () => {
     toggleButtonState(inputList, buttonElement, settings);
-    isValid(formElement, inputElement);
+    isValid(formElement, inputElement, settings);
   });
 });
 }; 
