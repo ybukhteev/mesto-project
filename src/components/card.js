@@ -1,5 +1,6 @@
 import { cardsTemplate, cardsSection} from './constnts.js';
 import { openElementPopup } from './modal.js';
+import { getCards } from './api.js';
 
 const initialCards = [
   {
@@ -36,7 +37,7 @@ function renderInitialCards(cards) {
   }
 }
 
-renderInitialCards(initialCards);
+renderInitialCards(getCards());
 
 //  функция рендеринга карточек в контейнере
 export function renderCard(card) {
@@ -49,8 +50,6 @@ export function addCard(cardName, cardLink) {
   cardImg.src = cardLink;
   cardImg.setAttribute('alt', cardName);
   cardEl.querySelector('.card__desc').textContent = cardName;
-  
-
   //  добавление / удаление лайка по клику на соответствующую иконку
   cardEl.querySelector('.card__like').addEventListener('click', (evt) => {
     evt.target.classList.toggle('card__like_active');
@@ -66,6 +65,3 @@ export function addCard(cardName, cardLink) {
 
   return(cardEl);
 }
-
-
-

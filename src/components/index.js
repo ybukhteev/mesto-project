@@ -13,14 +13,19 @@ import {
   cardUserName,
   cardStatus,
   formAddCard,
-  formSubmit
+  formSubmit,
+  profileAvatar,
+  popupUpdateAvatar,
+  formUpdateAvatar,
+  avatarUpdateInput
 } from './constnts.js';
-
 
 import { openPopup, closePopup} from './modal.js';
 import { addCard, renderCard } from './card';
 import { enableValidation } from './validate.js';
 import { settings} from './utils.js';
+
+import { getCards, getProfileInfo, sendProfileInfo} from './api.js';
 
 
 function handleFormSubmitCardAdd(evt) {
@@ -55,4 +60,22 @@ cardAddBtn.addEventListener('click', function () {
   openPopup(cardPopup);
 });
 
+profileAvatar.addEventListener('click', function() {
+  openPopup(popupUpdateAvatar);
+});
+
+function submitUpdateAvatar(evt){
+  evt.preventDefault();
+  const avatarImg = document.querySelector('.profile__avatar');
+  avatarImg.src = avatarUpdateInput.value;
+  closePopup(popupUpdateAvatar);
+}
+
+formUpdateAvatar.addEventListener('submit', submitUpdateAvatar);
+
 enableValidation(settings);
+
+getCards();
+
+getProfileInfo();
+
