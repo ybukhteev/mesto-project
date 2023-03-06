@@ -1,7 +1,8 @@
-import { cardsTemplate, cardsSection} from './constnts.js';
+import { cardsTemplate, cardsSection } from './constnts.js';
 import { openElementPopup } from './modal.js';
 import { getCards } from './api.js';
 
+/*  Удаляем массив карточек поскольку карточки теперь получаем с сервера
 const initialCards = [
   {
     name: 'Архыз',
@@ -27,7 +28,8 @@ const initialCards = [
     name: 'Байкал',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
-]; 
+];
+*/
 
 //  функция добавления исходнго массива карточек
 function renderInitialCards(cards) {
@@ -63,5 +65,5 @@ export function addCard(cardName, cardLink) {
     openElementPopup(evt.target.src, cardName);
   })
 
-  return(cardEl);
+  return (cardEl);
 }
