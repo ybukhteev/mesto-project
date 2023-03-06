@@ -1,69 +1,80 @@
 import { cardsTemplate, cardsSection } from './constnts.js';
 import { openElementPopup } from './modal.js';
-import { getCards } from './api.js';
+import { addLikeApi, delLikeApi, delCardApi } from './api.js';
 
-/*  Удаляем массив карточек поскольку карточки теперь получаем с сервера
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
-*/
-
-//  функция добавления исходнго массива карточек
-function renderInitialCards(cards) {
-  cardsSection.innerHTML = '';
-  for (let i = 0; i < cards.length; i++) {
-    cardsSection.append(addCard(cards[i].name, cards[i].link));
-  }
-}
-
-renderInitialCards(getCards());
-
-//  функция рендеринга карточек в контейнере
+//  Функция рендеринга карточек в контейнере
 export function renderCard(card) {
-  cardsSection.prepend(card);
+  cardsSection.prepend(card); // Добавляем контейнер с названием и ссылкой в начало блока карточки
 }
 
-export function addCard(cardName, cardLink) {
-  const cardEl = cardsTemplate.querySelector('.card').cloneNode(true);
-  const cardImg = cardEl.querySelector('.card__img');
-  cardImg.src = cardLink;
-  cardImg.setAttribute('alt', cardName);
-  cardEl.querySelector('.card__desc').textContent = cardName;
-  //  добавление / удаление лайка по клику на соответствующую иконку
-  cardEl.querySelector('.card__like').addEventListener('click', (evt) => {
-    evt.target.classList.toggle('card__like_active');
-  });
-  // удаление карточки по клику на иконку
-  cardEl.querySelector('.card__trash').addEventListener('click', (evt) => {
-    evt.target.closest('.card').remove();
-  });
+// Функция добавления лайка
+const addLike = (button, counter, idCard) => {
+  return addLikeApi(idCard)
+    .then((res) => {
+      button.classList.add('card__like_active');
+      counter.textContent = res.likes.length;
+    })
+    .catch((err) => { console.log(err) });
+};
 
-  cardEl.querySelector('.card__img').addEventListener('click', (evt) => {
-    openElementPopup(evt.target.src, cardName);
+// Функция удаления лайка
+const delLike = (button, counter, idCard) => {
+  return delLikeApi(idCard)
+    .then((res) => {
+      button.classList.remove('card__like_active');
+      counter.textContent = res.likes.length;
+    })
+    .catch((err) => { console.log(err) });
+};
+
+export function addCard(cardName, cardLink, likes, idOwner, idCard, userId) {
+  const cardElement = cardsTemplate.querySelector('.card').cloneNode(true);
+  const cardImage = cardElement.querySelector('.card__img');
+  const cardTitle = cardElement.querySelector('.card__desc');
+  const cardDelete = cardElement.querySelector('.card__trash');
+  const cardLike = cardElement.querySelector('.card__like');
+  const cardLikeCounter = cardElement.querySelector('.card__like-count');
+  const likesArray = Array.from(likes);
+
+  cardImage.src = cardLink;
+  cardImage.alt = cardName;
+  cardTitle.textContent = cardName;
+  cardLikeCounter.textContent = likes.length;
+  cardElement.id = idCard;
+
+
+
+  if (idOwner === userId) {
+    cardDelete.remove();
+  }
+
+  likesArray.forEach((item) => {
+    if (idCard === userId) {
+      cardLike.classList.add('card__like_active')
+    }
   })
 
-  return (cardEl);
+
+
+  //  Добавление / удаление лайка по клику на соответствующую иконку
+  cardLike.addEventListener('click', function () {
+    if (cardLike.classList.contains('card__like_active')) {
+      delLike(cardLike, cardLikeCounter, idCard);
+    } else {
+      addLike(cardLike, cardLikeCounter, idCard);
+    }
+  });
+
+  // Удаление карточки по клику на иконку корзины
+  cardDelete.addEventListener('click', function () {
+    delCardApi(idCard)
+      .then(() => cardElement.remove())
+      .catch((err) => console.log(err))
+  });
+
+  cardImage.addEventListener('click', function () {
+    openElementPopup(cardLink, cardName);
+  })
+
+  return cardElement;
 }

@@ -17,24 +17,37 @@ import {
   profileAvatar,
   popupUpdateAvatar,
   formUpdateAvatar,
-  avatarUpdateInput
+  avatarUpdateInput,
+  cardsSection
 } from './constnts.js';
 
-import { openPopup, closePopup} from './modal.js';
+import { openPopup, closePopup } from './modal.js';
 import { addCard, renderCard } from './card';
 import { enableValidation } from './validate.js';
-import { settings} from './utils.js';
+import { settings } from './utils.js';
 
-import { getCards, getProfileInfo, sendProfileInfo} from './api.js';
+import { getCards, getProfileInfo, addNewCard } from './api.js';
+
+let userId;
+
+// загрузка с сервера данных пользователя и карточек
+Promise.all([getProfileInfo(), getCards()])
+  .then(([user, cards]) => {
+    userId = user._id;
+    profileName.textContent = user.name;
+    profileStatus.textContent = user.about;
+    cards.forEach(item => cardsSection.append(addCard(item.name, item.link, item.likes, item.owner._id, userId)))
+  })
+  .catch(err => console.log(err))
 
 
-function handleFormSubmitCardAdd(evt) {
+// Добавление новой карточки    
+export function handleFormSubmitCardAdd(evt) {
   evt.preventDefault();
-  renderCard(addCard(cardUserName.value, cardStatus.value));
-  evt.target.reset();
-  closePopup(cardPopup);
-  formSubmit.setAttribute('disabled', true);
-  formSubmit.classList.add('form__submit_inactive');
+  addNewCard(cardUserName.value, cardStatus.value)
+    .then(card => renderCard(addCard(card.name, card.link, card.likes, card.owner._id, card._id, userId)))
+    .then(() => closePopup(cardPopup))
+    .catch(err => console.log(err))
 }
 
 formAddCard.addEventListener('submit', handleFormSubmitCardAdd);
@@ -46,12 +59,12 @@ profileEditBtn.addEventListener('click', function () {
   openPopup(profilePopup);  // вызвал функцию открытию popup и в качестве параметра передал ей popup редактирования профиля
 });
 
-function submitEditProfileForm(evt) { 
+function submitEditProfileForm(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   profileName.textContent = nameInput.value;
   profileStatus.textContent = jobInput.value;
   closePopup(profilePopup);
-}   
+}
 
 //  функция сохранения данных в форму профиля
 formElement.addEventListener('submit', submitEditProfileForm);
@@ -60,11 +73,11 @@ cardAddBtn.addEventListener('click', function () {
   openPopup(cardPopup);
 });
 
-profileAvatar.addEventListener('click', function() {
+profileAvatar.addEventListener('click', function () {
   openPopup(popupUpdateAvatar);
 });
 
-function submitUpdateAvatar(evt){
+function submitUpdateAvatar(evt) {
   evt.preventDefault();
   const avatarImg = document.querySelector('.profile__avatar');
   avatarImg.src = avatarUpdateInput.value;
@@ -73,9 +86,4 @@ function submitUpdateAvatar(evt){
 
 formUpdateAvatar.addEventListener('submit', submitUpdateAvatar);
 
-enableValidation(settings);
-
-getCards();
-
-getProfileInfo();
-
+enableValidation(settings); 

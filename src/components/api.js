@@ -1,39 +1,68 @@
-import { config, getResponse } from "./utils.js";
-import { addCard } from "./card.js";
+// Опциональный объект fetch запроса
+const config = {
+  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-19',
+  headers: {
+    authorization: 'ea3803b4-70f5-4d7a-b91e-2c611c425bce',
+    'Content-Type': 'application/json'
+  }
+}
 
-// запрос профиля на сервере
+// Получение ответа от сервера
+const getResponse = (res) => {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(`Ошибка: ${res.status}`);
+}
+
+// Метод fetch создает запрос на сервер и возвращает его ответ 
+// На вход fetch принимает 2 аргумерта; первый - обязательный - url запрашиваемого ресурса 
+// Второй аругумент не обязательный - это опциональный обект
+
+
+// Запрос на загрузку данных профиля с сервера
 export const getProfileInfo = () => {
+  // Метод fetch асинхронный, когда его вызывают он создает промис, а когда получает ответ, переводит промис в нужный статус
+  // Ответ от сервера при этом записывается в промис, так что его можно использовать через then и catch
   return fetch(`${config.baseUrl}/users/me`, {
     headers: config.headers
   })
     .then(getResponse)
-    .then((data)=>console.log(data))
-  };
-
-// запрос карт на сервере
-export const getCards = () => {
-  return fetch(`${config.baseUrl}/cards`, {
-  headers: config.headers
-})
-  .then(getResponse)
 };
 
-/*
-
-запрос на удаление картоки
-export const delCard = (cardId) =>{
-  return fetch(`${config.baseUrl}/users/me`, {
-    method: 'PATCH',
+// Запрос на загрузку карточек с сервера
+export const getCards = () => {
+  return fetch(`${config.baseUrl}/cards`, {
     headers: config.headers
   })
-  .then(getResponse)
-  .then((data)=>console.log(data))
+    .then(getResponse)
+};
+
+// Fetch запрос к серверу для отправки данных новой карточки
+export const addNewCard = (cardName, cardLink) => {
+  return fetch(`${config.baseUrl}/cards`, {
+    method: 'POST',
+    headers: config.headers,
+    body: JSON.stringify({
+      name: cardName,
+      link: cardLink
+    })
+  })
+    .then(getResponse)
+}
+
+// Запрос на удаление карточки с вервера
+export const delCardApi = (cardId) => {
+  return fetch(`${config.baseUrl}/cards/${cardId}`, {
+    method: 'DELETE',
+    headers: config.headers
+  })
+    .then(getResponse)
 }
 
 
-
-// запрос на отправку данных нового профиля
-export const sendProfileInfo = (name, about) =>{
+// Запрос на отправку данных нового профиля
+export const sendProfileInfo = (name, about) => {
   return fetch(`${config.baseUrl}/users/me`, {
     method: 'PATCH',
     headers: config.headers,
@@ -42,15 +71,13 @@ export const sendProfileInfo = (name, about) =>{
       about: `${about}`,
     })
   })
-  .then(getResponse)
-  .then((data)=>console.log(data))
+    .then(getResponse)
 }
 
-// запрос на редактрование аватара
 
-// запрос на добавление карточки  на сервер
-export const sendCard = (cardname,cardlink ) => {
-   return fetch(`${config.baseUrl}/cards`, {
+// Запрос на добавление карточки  на сервер
+export const sendCard = (cardname, cardlink) => {
+  return fetch(`${config.baseUrl}/cards`, {
     method: 'POST',
     headers: config.headers,
     body: JSON.stringify({
@@ -58,31 +85,28 @@ export const sendCard = (cardname,cardlink ) => {
       cardlink: cardlink
     })
   })
-  .then(getResponse)
-  .then((data)=>console.log(data))
+    .then(getResponse)
 }
 
-// запрос на добавление лайка
-export const addLike = (cardID) => {
-  return fetch(`${config.baseUrl}/cards/likes/cardId}`, {
+// Запрос на добавление лайка
+export const addLikeApi = (cardId) => {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: 'PUT',
     headers: config.headers
   })
-  .then(getResponse)
-  .then((data)=>console.log(data));
+    .then(getResponse)
 }
 
-// запрос на удаление лайка
-export const delLike = (cardID) => {
-  return fetch(`${config.baseUrl}/cards/likes/cardId}`, {
+// Запрос на удаление лайка
+export const delLikeApi = (cardId) => {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: 'DELETE',
     headers: config.headers
   })
-  .then(getResponse)
-  .then((data)=>console.log(data));
+    .then(getResponse)
 }
 
-// запрос на обновление аватара{
+// Запрос на обновление аватара
 export const editProfileAvatar = (avaLink) => {
   return fetch(`${config.baseUrl}/cards/likes/cardId}`, {
     method: 'PATCH',
@@ -91,8 +115,5 @@ export const editProfileAvatar = (avaLink) => {
       avatar: `${avaLink}`
     })
   })
-  .then(getResponse)
-  .then((data)=>console.log(data));
+    .then(getResponse)
 }
-
-*/
