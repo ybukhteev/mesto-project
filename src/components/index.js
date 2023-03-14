@@ -30,15 +30,7 @@ import { getCards, getProfileInfo, addNewCard } from './api.js';
 
 let userId;
 
-// загрузка с сервера данных пользователя и карточек
-Promise.all([getProfileInfo(), getCards()])
-  .then(([user, cards]) => {
-    userId = user._id;
-    profileName.textContent = user.name;
-    profileStatus.textContent = user.about;
-    cards.forEach(item => cardsSection.append(addCard(item.name, item.link, item.likes, item.owner._id, userId)))
-  })
-  .catch(err => console.log(err))
+
 
 
 // Добавление новой карточки    
@@ -86,4 +78,12 @@ function submitUpdateAvatar(evt) {
 
 formUpdateAvatar.addEventListener('submit', submitUpdateAvatar);
 
-enableValidation(settings); 
+enableValidation(settings);
+
+// загрузка с сервера данных пользователя и карточек
+Promise.all([getProfileInfo(), getCards()])
+  .then(([user, cards]) => {
+    updateProfileInfo(user);
+    renderCards(cards);
+  })
+  .catch(err => console.log(err))
