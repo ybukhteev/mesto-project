@@ -1,8 +1,8 @@
 // Опциональный объект fetch запроса
 const config = {
-  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-19',
+  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-22',
   headers: {
-    authorization: 'ea3803b4-70f5-4d7a-b91e-2c611c425bce',
+    authorization: '8f3ed13c-ae6e-4a59-b837-9d4380da0d56',
     'Content-Type': 'application/json'
   }
 }
