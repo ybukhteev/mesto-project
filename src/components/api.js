@@ -1,4 +1,4 @@
-// создал объект config в котром указал URL и заголовки для fetch запросов
+// Cоздал объект config в котром указал URL и заголовки для fetch запросов
 const config = {
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-22',
   header: {
@@ -7,5 +7,15 @@ const config = {
   }
 }
 
+// После выполнения запроса на сервер получаем response объект, в котором промис возвращает текущее состояние запроса
+// Чтобы получить тело нашего запроса требуется в response объекте вызвать метод.json
+const getResponse = (res) => {
+  if (res.ok) {
+    return res.json();
+  }
+
+  // Если ошибка, отклоняем промис
+  return Promise.reject(`Ошибка: ${res.status}`);
+}
 
 
