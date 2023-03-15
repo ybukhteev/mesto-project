@@ -1,4 +1,4 @@
-export const settings = {  
+export const settings = {
   formSelector: '.form',
   inputSelector: '.form__input',
   submitButtonSelector: '.form__submit',

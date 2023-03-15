@@ -21,6 +21,7 @@ import { openPopup, closePopup} from './modal.js';
 import { addCard, renderCard } from './card';
 import { enableValidation } from './validate.js';
 import { settings} from './utils.js';
+import { getUserInfo } from './api';
 
 
 function handleFormSubmitCardAdd(evt) {
@@ -54,5 +55,7 @@ formElement.addEventListener('submit', submitEditProfileForm);
 cardAddBtn.addEventListener('click', function () {
   openPopup(cardPopup);
 });
+
+getUserInfo();
 
 enableValidation(settings);
