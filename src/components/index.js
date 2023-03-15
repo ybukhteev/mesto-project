@@ -18,7 +18,7 @@ import {
 
 
 import { openPopup, closePopup} from './modal.js';
-import { addCard, renderCard } from './card';
+import { addCard, renderCards } from './card';
 import { enableValidation } from './validate.js';
 import { settings} from './utils.js';
 import { getUserInfo, getCardList } from './api';
@@ -58,10 +58,9 @@ cardAddBtn.addEventListener('click', function () {
 
 enableValidation(settings);
 
-
 Promise.all([getUserInfo(), getCardList()])
   .then(([cards,userData]) => {
     updateUserInfo(userData);
-    renderCard(cards);
+    renderCards(cards);
   })
   .catch((err) => console.log(err));

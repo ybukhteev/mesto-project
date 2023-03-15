@@ -20,29 +20,34 @@ export const renderCards = (cardsArray) => {
   })
 }
 
-export function addCard(cardName, cardLink) {
+
+// Функция создания новой карточки
+export const addCard = (cardName, cardLink, likes, owner, _id) => {
   const cardEl = cardsTemplate.querySelector('.card').cloneNode(true);
   const cardImg = cardEl.querySelector('.card__img');
+  const likeButton = cardEl.querySelector('.card__like');
+  const deleteButton = cardEl.querySelector('.card__trash');
+  const currentUserId = getUserId();
   cardImg.src = cardLink;
   cardImg.setAttribute('alt', cardName);
   cardEl.querySelector('.card__desc').textContent = cardName;
   
 
   //  добавление / удаление лайка по клику на соответствующую иконку
-  cardEl.querySelector('.card__like').addEventListener('click', (evt) => {
+  likeButton.addEventListener('click', (evt) => {
     evt.target.classList.toggle('card__like_active');
   });
   // удаление карточки по клику на иконку
-  cardEl.querySelector('.card__trash').addEventListener('click', (evt) => {
+  deleteButton.addEventListener('click', (evt) => {
     evt.target.closest('.card').remove();
   });
 
-  cardEl.querySelector('.card__img').addEventListener('click', (evt) => {
+  cardImg.addEventListener('click', (evt) => {
     openElementPopup(evt.target.src, cardName);
   })
 
-  return(cardEl);
-}
+  return cardEl;
+};
 
 
 
