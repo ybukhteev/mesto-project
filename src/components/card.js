@@ -1,33 +1,7 @@
 import { cardsTemplate, cardsSection} from './constnts.js';
 import { openElementPopup } from './modal.js';
 
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-]; 
-
+/*
 //  функция добавления исходнго массива карточек
 function renderInitialCards(cards) {
   cardsSection.innerHTML = '';
@@ -37,10 +11,13 @@ function renderInitialCards(cards) {
 }
 
 renderInitialCards(initialCards);
+*/
 
 //  функция рендеринга карточек в контейнере
-export function renderCard(card) {
-  cardsSection.prepend(card);
+export const renderCards = (cardsArray) => {
+  cardsArray.forEach((card)=> {
+    cardsSection.prepend(card);
+  })
 }
 
 export function addCard(cardName, cardLink) {
