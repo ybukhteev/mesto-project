@@ -18,7 +18,7 @@ const getResponse = (res) => {
   return Promise.reject(`Ошибка: ${res.status}`);
 }
 
-// Функция для загрузки информации о пользователе с сервера
+// Функция запроса для получения информации о пользователе с сервера
 export const getUserInfo = () => {
   return fetch(`${config.baseUrl}/users/me`,{
     headers: config.headers
@@ -26,4 +26,10 @@ export const getUserInfo = () => {
   .then(getResponse)
 }
 
-
+// Функция запроса для получения карточек с сервера
+export const getCardList = () => {
+  return fetch(`${config.baseUrl}/cards`, {
+    headers: config.headers
+  })
+  .then(getResponse)
+}
