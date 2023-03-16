@@ -7,11 +7,11 @@ export const settings = {
   errorClass: 'form__input-error_active'
 }
 
-export const rendeLoading = (popup, isLoading) => {
+export const renderLoading = (popup, isLoading = false) => {
   const button = popup.querySelector('.popup__button');
   if (isLoading) {
     button.textContent = 'Сохранение...';
   } else {
-    button.textContent = 'Сохранить'
+    button.textContent = 'Сохранить';
   }
 };

@@ -1,18 +1,19 @@
-import { cardsTemplate, cardsSection} from './constnts.js';
+import { cardsTemplate, cardsSection, cardPopup} from './constnts.js';
 import { closePopup, openElementPopup } from './modal.js';
 import { addCard } from './api.js';
+import { renderLoading } from './utils.js';
 
 
 //  функция рендеринга карточек в контейнере
 export const renderCards = (cardsArray) => {
   cardsArray.forEach((card)=> {
     cardsSection.prepend(createCard(card));
-  })
-}
+  });
+};
 
 
 // Функция создания новой карточки
-export const createCard = (cardName, cardLink, likes, owner, _id) => {
+export const createCard = ({cardName, cardLink, likes, owner, _id}) => {
   const cardEl = cardsTemplate.querySelector('.card').cloneNode(true);
   const cardImg = cardEl.querySelector('.card__img');
   const likeButton = cardEl.querySelector('.card__like');
@@ -42,14 +43,19 @@ export const createCard = (cardName, cardLink, likes, owner, _id) => {
 export const handleCardSubmit = (evt) => {
   evt.preventDeafault();
 
+  renderLoading(cardPopup, true);
+
   addCard({
-    name: cardName,
-    link: cardLink,
+    name: cardName.value,
+    link: cardLink.vlaue,
   })
     .then((cardData) => {
       cardsSection.prepend(createCard(cardData));
-      closePopup();
+      closePopup(cardPopup);
       evt.target.reset();
     })
     .catch((err) => console.log(`Ошибка при добавлении новой карточки на сервер: ${err}`))
+    .finally(() => {
+      renderLoading(cardPopup);
+    })
   };

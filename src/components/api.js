@@ -34,13 +34,13 @@ export const getCardList = () => {
   .then(getResponse);
 }
 
-export const addCard = (cardName, cardLink) => {
+export const addCard = (name, link) => {
   return fetch(`${config.baseUrl}/cards`, {
     method: 'POST',
     headers: config.headers,
     bosy: JSON.stringify({
-      name: cardName,
-      link: cardLink
+      name: name,
+      link: link
     }) 
  })
     .then(getResponse);
