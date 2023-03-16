@@ -17,11 +17,31 @@ import {
 } from './constnts.js';
 
 
+
+
 import { openPopup, closePopup} from './modal.js';
 import { addCard, renderCards } from './card';
 import { enableValidation } from './validate.js';
 import { settings} from './utils.js';
 import { getUserInfo, getCardList } from './api';
+
+let userId;
+
+const  fillProfileInfo = () => {
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileStatus.textContent;
+}
+
+const getUserId = () => {
+  return userId;
+};
+
+const updateUserInfo = ( {name, about, avatar, _id} ) => {
+  userId = _id;
+  profileName.textContent = name;
+  profileStatus.textContent = about;
+  //avatar
+};
 
 
 function handleFormSubmitCardAdd(evt) {
@@ -44,9 +64,16 @@ profileEditBtn.addEventListener('click', function () {
 
 function submitEditProfileForm(evt) { 
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-  profileName.textContent = nameInput.value;
-  profileStatus.textContent = jobInput.value;
-  closePopup(profilePopup);
+    setUserInfo({
+      name: nameInput.value,
+      about: jobInput.value
+    })
+    .then((data) =>{
+      updateUserInfo(data);
+      closePopup(profilePopup);
+    })
+    .catch((err) => console.log(`Ошибка при обновлении данных пользователя: ${err}`)
+    )
 }   
 
 //  функция сохранения данных в форму профиля

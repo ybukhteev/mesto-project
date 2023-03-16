@@ -1,28 +1,18 @@
 import { cardsTemplate, cardsSection} from './constnts.js';
-import { openElementPopup } from './modal.js';
+import { closePopup, openElementPopup } from './modal.js';
+import { addCard } from './api.js';
 
-/*
-//  функция добавления исходнго массива карточек
-function renderInitialCards(cards) {
-  cardsSection.innerHTML = '';
-  for (let i = 0; i < cards.length; i++) {
-    cardsSection.append(addCard(cards[i].name, cards[i].link));
-  }
-}
-
-renderInitialCards(initialCards);
-*/
 
 //  функция рендеринга карточек в контейнере
 export const renderCards = (cardsArray) => {
   cardsArray.forEach((card)=> {
-    cardsSection.prepend(card);
+    cardsSection.prepend(createCard(card));
   })
 }
 
 
 // Функция создания новой карточки
-export const addCard = (cardName, cardLink, likes, owner, _id) => {
+export const createCard = (cardName, cardLink, likes, owner, _id) => {
   const cardEl = cardsTemplate.querySelector('.card').cloneNode(true);
   const cardImg = cardEl.querySelector('.card__img');
   const likeButton = cardEl.querySelector('.card__like');
@@ -49,5 +39,17 @@ export const addCard = (cardName, cardLink, likes, owner, _id) => {
   return cardEl;
 };
 
+export const handleCardSubmit = (evt) => {
+  evt.preventDeafault();
 
-
+  addCard({
+    name: cardName,
+    link: cardLink,
+  })
+    .then((cardData) => {
+      cardsSection.prepend(createCard(cardData));
+      closePopup();
+      evt.target.reset();
+    })
+    .catch((err) => console.log(`Ошибка при добавлении новой карточки на сервер: ${err}`))
+  };

@@ -23,7 +23,7 @@ export const getUserInfo = () => {
   return fetch(`${config.baseUrl}/users/me`,{
     headers: config.headers
   })
-  .then(getResponse)
+  .then(getResponse);
 }
 
 // Функция запроса для получения карточек с сервера
@@ -31,5 +31,17 @@ export const getCardList = () => {
   return fetch(`${config.baseUrl}/cards`, {
     headers: config.headers
   })
-  .then(getResponse)
+  .then(getResponse);
 }
+
+export const addCard = (cardName, cardLink) => {
+  return fetch(`${config.baseUrl}/cards`, {
+    method: 'POST',
+    headers: config.headers,
+    bosy: JSON.stringify({
+      name: cardName,
+      link: cardLink
+    }) 
+ })
+    .then(getResponse);
+};
