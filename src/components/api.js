@@ -45,3 +45,11 @@ export const addCard = (name, link) => {
  })
     .then(getResponse);
 };
+
+export const changeLikeCardInfo = (cardId, like) => {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: like? 'PUT': 'DELETE',
+    headers: config.headers
+  })
+  .then(getResponse);
+}

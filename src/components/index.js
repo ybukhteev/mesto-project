@@ -36,7 +36,7 @@ const fillProfileInfo = () => {
   jobInput.value = profileStatus.textContent; // добавил в содержимое элемента строковое значение, представляющее значение текущего узла
 }
 
-const getUserId = () => {
+export const getUserId = () => {
   return userId;
 };
 
@@ -44,7 +44,7 @@ const updateUserInfo = ( {name, about, avatar, _id} ) => {
   userId = _id;
   profileName.textContent = name;
   profileStatus.textContent = about;
-  profileAvatar.style.backgroundImage = `url(${avatar})`;
+  profileAvatar.src = avatar;
 };
 
 const submitEditProfileForm =(evt) => { 

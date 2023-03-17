@@ -1,4 +1,4 @@
-import {buttonClosePopup, popupList, popupImgs, popupImgsTitle, popupView } from './constnts.js';
+import {buttonClosePopup, popupList } from './constnts.js';
 
 // добавил функцию открытия popup
 export function openPopup(popup) {
@@ -10,13 +10,6 @@ export function openPopup(popup) {
 export function closePopup(popup) {
   popup.classList.remove('popup_opened');
   document.removeEventListener('keydown', closeByEsc);
-}
-
-export function openElementPopup(cardLink, cardName) {
-  openPopup(popupImgs);
-  popupImgsTitle.textContent = cardName;
-  popupView.src = cardLink;
-  popupView.alt = cardName;
 }
 
 // зыкрытие popup по клавише ESC
