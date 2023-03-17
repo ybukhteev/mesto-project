@@ -16,18 +16,38 @@ export const renderCards = (cardsArray) => {
 export const createCard = ({cardName, cardLink, likes, owner, _id}) => {
   const cardEl = cardsTemplate.querySelector('.card').cloneNode(true);
   const cardImg = cardEl.querySelector('.card__img');
-  const likeButton = cardEl.querySelector('.card__like');
+  
   const deleteButton = cardEl.querySelector('.card__trash');
+
   const currentUserId = getUserId();
+  
+  cardEl.querySelector('.card__desc').textContent = cardName;
   cardImg.src = cardLink;
   cardImg.setAttribute('alt', cardName);
-  cardEl.querySelector('.card__desc').textContent = cardName;
   
+const updateLikes = (cardEl, likes, currentUserId) => {
+  const likeButton = cardEl.querySelector('.card__like');
+  const likeCounter = cardEl.querySelector('.card__like-count');
 
-  //  добавление / удаление лайка по клику на соответствующую иконку
-  likeButton.addEventListener('click', (evt) => {
-    evt.target.classList.toggle('card__like_active');
-  });
+  likeCounter.textContent = likes.length.toString();
+  const isLiked = Boolean(likes.find((item) => item.id === currentUserId));
+  likeButton.classList.toggle('card__like_active', isLiked)
+};
+
+const likeClick = (cardEl, cardId, currentUserId) => {
+  const likeButton = cardEl.querySelector('.card__like');
+  const isLiked = likeButton.classList.contains('card__like_active');
+
+  changeLikeCardInfo(cardId,isLiked)
+    .then((cardData) => {
+      updateLikes(cardEl, cardData.likes, currentUserId);
+    })
+    .catch((err) => {
+      console.log(`Ошибка добавления лайка: ${err}`);
+    });
+  };
+
+
   // удаление карточки по клику на иконку
   deleteButton.addEventListener('click', (evt) => {
     evt.target.closest('.card').remove();
@@ -35,6 +55,12 @@ export const createCard = ({cardName, cardLink, likes, owner, _id}) => {
 
   cardImg.addEventListener('click', (evt) => {
     openElementPopup(evt.target.src, cardName);
+  })
+
+  updateLikes(cardEl, likes, currentUserId);
+
+  likeButton.addEventListener('click', () => {
+    likeClick(cardEl, _id, currentUserId);
   })
 
   return cardEl;
