@@ -20,9 +20,6 @@ import {
   avatarUpdateInput,
 } from './constnts.js';
 
-
-
-
 import { openPopup, closePopup} from './modal.js';
 import { renderCards } from './card';
 import { enableValidation } from './validate.js';
@@ -44,7 +41,7 @@ const updateUserInfo = ( {name, about, avatar, _id} ) => {
   userId = _id;
   profileName.textContent = name;
   profileStatus.textContent = about;
-  profileAvatar.src = avatar;
+  profileAvatar.style.backgroundImage = `url(${avatar})`;
 };
 
 const submitEditProfileForm =(evt) => { 
@@ -55,8 +52,8 @@ const submitEditProfileForm =(evt) => {
       name: nameInput.value,
       about: jobInput.value
     })
-    .then((data) =>{
-      updateUserInfo(data);
+    .then((info) =>{
+      updateUserInfo(info);
       closePopup(profilePopup);
     })
     .catch((err) => console.log(`Ошибка при обновлении данных пользователя: ${err}`)
@@ -65,7 +62,6 @@ const submitEditProfileForm =(evt) => {
       renderLoading(profilePopup);
     })
 }   
-
 
 function handleFormSubmitCardAdd(evt) {
   evt.preventDefault();
@@ -81,7 +77,7 @@ const submitEditAvtarForm = (evt) =>{
   renderLoading(popupUpdateAvatar, true);
 
   setUserAvatar({
-    avatar: avatarUpdateInput.value,
+    avatar: formUpdateAvatar.value,
   })
     .then((data) => {
       updateUserInfo(data);
@@ -102,9 +98,9 @@ profileEditBtn.addEventListener('click', function () {
   openPopup(profilePopup);  // вызвал функцию открытию popup и в качестве параметра передал ей popup редактирования профиля
 });
 
-
-//  функция сохранения данных в форму профиля
+//  Функция сохранения данных в форму профиля
 formElement.addEventListener('submit', submitEditProfileForm, submitEditAvtarForm);
+
 
 cardAddBtn.addEventListener('click', function () {
   openPopup(cardPopup);
@@ -114,17 +110,6 @@ cardAddBtn.addEventListener('click', function () {
 profileAvatar.addEventListener('click', function () {
   openPopup(popupUpdateAvatar);
 });
-
-/*
-function submitUpdateAvatar(evt) {
-  evt.preventDefault();
-  const avatarImg = document.querySelector('.profile__avatar');
-  avatarImg.src = avatarUpdateInput.value;
-  closePopup(popupUpdateAvatar);
-}
-
-formUpdateAvatar.addEventListener('submit', submitUpdateAvatar);
-*/
 
 enableValidation(settings);
 

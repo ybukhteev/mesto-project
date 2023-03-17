@@ -34,6 +34,7 @@ export const getCardList = () => {
   .then(getResponse);
 }
 
+// Функци запроса для добавления карточки на сервер
 export const addCard = (name, link) => {
   return fetch(`${config.baseUrl}/cards`, {
     method: 'POST',
@@ -46,9 +47,19 @@ export const addCard = (name, link) => {
     .then(getResponse);
 };
 
+// Функция запроса для добавления/удаления лайка 
 export const changeLikeCardInfo = (cardId, like) => {
   return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: like? 'PUT': 'DELETE',
+    headers: config.headers
+  })
+  .then(getResponse);
+}
+
+// Функция запроса для удаления карточки
+export const deleteCard = (cardId) => {
+  return fetch(`${config.baseUrl}/cards/${cardId}`, {
+    method: 'DELETE',
     headers: config.headers
   })
   .then(getResponse);

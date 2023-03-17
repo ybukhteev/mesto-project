@@ -1,25 +1,22 @@
 import { cardsTemplate, cardsSection, cardPopup, popupImgs, popupView,  popupImgsBox, popupImgsTitle} from './constnts.js';
 import { closePopup, openPopup } from './modal.js';
-import { addCard, changeLikeCardInfo } from './api.js';
+import { addCard, changeLikeCardInfo, deleteCard } from './api.js';
 import { renderLoading } from './utils.js';
 import { getUserId } from './index.js';
 
-const cardEl = cardsTemplate.querySelector('.card').cloneNode(true);
-const cardImg = cardEl.querySelector('.card__img');
-
 //  функция рендеринга карточек в контейнере
-export const renderCards = (cardsArray) => {
-  cardsArray.forEach((card)=> { 
+export const renderCards = (cards) => {
+  cards.forEach((card)=> { 
     cardsSection.prepend(createCard(card));
   });
 };
 
 // Функция открытия попапа картинки
 const previewImage = (data) => {
-  popupImgs.src = data.link;
+  popupView.src = data.link;
   popupImgs.alt = data.name;
   popupImgsTitle.textContent = data.name;
-  openPopup(popupView);
+  openPopup(popupImgs);
 }
 
 const updateLikes = (cardEl, likes, currentUserId) => {
@@ -56,6 +53,8 @@ export const createCard = ({name, link, likes, owner, _id}) => {
   cardEl.querySelector('.card__desc').textContent = name;
   cardImg.src = link;
 
+  deleteButton.classList.toggle('card__trash_hidden', owner.id !== currentUserId);
+
   cardImg.addEventListener('click', () => {
     previewImage({name, link})
   });
@@ -65,6 +64,10 @@ export const createCard = ({name, link, likes, owner, _id}) => {
   likeButton.addEventListener('click', () => {
     likeClick(cardEl, _id, currentUserId);
   });
+
+  deleteButton.addEventListener('click', () => {
+    deleteCard(cardEl, currentUserId);
+  })
 
   return cardEl;
 };
