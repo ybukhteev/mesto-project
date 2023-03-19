@@ -24,7 +24,7 @@ import { openPopup, closePopup} from './modal.js';
 import { renderCards } from './card';
 import { enableValidation } from './validate.js';
 import { renderLoading, settings} from './utils.js';
-import { getUserInfo, getCardList } from './api';
+import { getUserInfo, getCardList, setUserInfo } from './api';
 
 let userId;
 
@@ -65,19 +65,19 @@ const submitEditProfileForm =(evt) => {
 
 function handleFormSubmitCardAdd(evt) {
   evt.preventDefault();
-  renderCard(addCard(cardUserName.value, cardStatus.value));
+  renderCards(addCard(cardUserName.value, cardStatus.value));
   evt.target.reset();
   closePopup(cardPopup);
   formSubmit.setAttribute('disabled', true);
   formSubmit.classList.add('form__submit_inactive');
 }
 
-const submitEditAvtarForm = (evt) =>{
+const submitEditAvatarForm = (evt) =>{
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   renderLoading(popupUpdateAvatar, true);
 
   setUserAvatar({
-    avatar: formUpdateAvatar.value,
+    avatar:  avatarUpdateInput.value,
   })
     .then((data) => {
       updateUserInfo(data);
@@ -99,7 +99,7 @@ profileEditBtn.addEventListener('click', function () {
 });
 
 //  Функция сохранения данных в форму профиля
-formElement.addEventListener('submit', submitEditProfileForm, submitEditAvtarForm);
+formElement.addEventListener('submit', submitEditProfileForm, submitEditAvatarForm);
 
 
 cardAddBtn.addEventListener('click', function () {

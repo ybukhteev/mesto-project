@@ -26,6 +26,18 @@ export const getUserInfo = () => {
   .then(getResponse);
 }
 
+export const setUserInfo = ({name, about}) => {
+  return fetch(`${config.baseUrl}/users/me`,{
+    method: 'PATCH',
+    headers: config.headers,
+    bosy: JSON.stringify({
+      name: name,
+      about: about
+    }) 
+  })
+  .then(getResponse);
+}
+
 // Функция запроса для получения карточек с сервера
 export const getCardList = () => {
   return fetch(`${config.baseUrl}/cards`, {

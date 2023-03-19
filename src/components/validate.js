@@ -4,8 +4,8 @@ const showInputError = (formElement, inputElement, errorMessage , settings) => {
   // Находим элемент ошибки внутри самой функции
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   // Остальной код такой же
-  errorElement.classList.add(settings.errorClass);
   inputElement.classList.add(settings.inputErrorClass);
+  errorElement.classList.add(settings.errorClass);
   errorElement.textContent = errorMessage;
 };
 

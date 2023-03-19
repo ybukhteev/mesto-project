@@ -76,10 +76,9 @@ export const handleCardSubmit = (evt) => {
   evt.preventDeafault();
 
   renderLoading(cardPopup, true);
-
   addCard({
-    name: cardName.value,
-    link: cardLink.vlaue,
+    name: cardNameInput.value,
+    link: cardLinkInput.vlaue,
   })
     .then((cardData) => {
       cardsSection.prepend(createCard(cardData));
