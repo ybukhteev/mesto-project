@@ -38,6 +38,7 @@ export const setUserInfo = ({name, about}) => {
   .then(getResponse);
 }
 
+
 // Функция запроса для получения карточек с сервера
 export const getCardList = () => {
   return fetch(`${config.baseUrl}/cards`, {
@@ -47,7 +48,7 @@ export const getCardList = () => {
 }
 
 // Функци запроса для добавления карточки на сервер
-export const addCard = (name, link) => {
+export const addCard = ({name, link}) => {
   return fetch(`${config.baseUrl}/cards`, {
     method: 'POST',
     headers: config.headers,

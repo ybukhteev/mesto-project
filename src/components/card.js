@@ -1,4 +1,4 @@
-import { cardsTemplate, cardsSection, cardPopup, popupImgs, popupView,  popupImgsBox, popupImgsTitle} from './constnts.js';
+import { cardsTemplate, cardsSection, cardPopup, popupImgs, popupView,  popupImgsBox, popupImgsTitle, cardUserName , cardStatus} from './constnts.js';
 import { closePopup, openPopup } from './modal.js';
 import { addCard, changeLikeCardInfo, deleteCard } from './api.js';
 import { renderLoading } from './utils.js';
@@ -72,13 +72,13 @@ export const createCard = ({name, link, likes, owner, _id}) => {
   return cardEl;
 };
 
-export const handleCardSubmit = (evt) => {
-  evt.preventDeafault();
+export const handleCardFormSubmit = (evt) => {
+  evt.preventDefault();
 
   renderLoading(cardPopup, true);
   addCard({
-    name: cardNameInput.value,
-    link: cardLinkInput.vlaue,
+    name: cardUserName.value,
+    link: cardStatus.value,
   })
     .then((cardData) => {
       cardsSection.prepend(createCard(cardData));

@@ -34,5 +34,3 @@ popupList.forEach(item => (
   })
 ));
 
-
-
