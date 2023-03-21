@@ -108,7 +108,3 @@ Promise.all([getUserInfo(), getCardList()])
     renderCards(cards);
   })
   .catch((err) => console.log(err));
-
-
-
-  

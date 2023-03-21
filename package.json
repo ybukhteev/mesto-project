@@ -1,6 +1,6 @@
 {
   "name": "mesto-project",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Проект представляет из себя интерактивную страницу, куда можно добавлять фотографии, удалять их и ставить лайки. Проект написан в процессе обучения на Яндекс.Практикум на факультете \"Вэб разработчик плюс\".\r  Проект написан в редакторе VSCode на ооперационной системе Windows 10.",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "url": "git+https://github.com/ybukhteev/mesto-project.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Bukhteev",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ybukhteev/mesto-project/issues"
@@ -29,11 +29,12 @@
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.7.2",
     "postcss-loader": "^7.0.2",
-    "webpack": "^5.75.0",
+    "webpack": "^5.76.1",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
-    "core-js": "^3.27.2"
+    "core-js": "^3.27.2",
+    "jquery": "^3.6.3"
   }
 }
