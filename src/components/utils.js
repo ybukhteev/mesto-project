@@ -6,3 +6,19 @@ export const settings = {
   inputErrorClass: 'form__input_type_error',
   errorClass: 'form__input-error_active'
 }
+
+export const popupConfig = {
+  profilePopup: '.popup_edit-profile',
+  popupUpdateAvatar:'.popup_update-avatar',
+  cardPopup: '.popup_add-card',
+  popupImgs: '.popup_imgs',
+}
+
+export const renderLoading = (popup, isLoading = false) => {
+  const button = popup.querySelector('.form__submit');
+  if (isLoading) {
+    button.textContent = 'Сохранение...';
+  } else {
+    button.textContent = 'Сохранить';
+  }
+};
