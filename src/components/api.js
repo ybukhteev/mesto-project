@@ -30,9 +30,9 @@ export const setUserInfo = ({name, about}) => {
   return fetch(`${config.baseUrl}/users/me`,{
     method: 'PATCH',
     headers: config.headers,
-    bosy: JSON.stringify({
-      name: name,
-      about: about
+    body: JSON.stringify({
+      name: `${name}`,
+      about: `${about}`
     }) 
   })
   .then(getResponse);
@@ -52,7 +52,7 @@ export const addCard = ({name, link}) => {
   return fetch(`${config.baseUrl}/cards`, {
     method: 'POST',
     headers: config.headers,
-    bosy: JSON.stringify({
+    body: JSON.stringify({
       name: name,
       link: link
     }) 
@@ -77,3 +77,5 @@ export const deleteCard = (cardId) => {
   })
   .then(getResponse);
 }
+
+// Функция обновления аватара пользователя

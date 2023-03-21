@@ -11,8 +11,9 @@ import {
   formElement,
   cardAddBtn,
   formAddCard,
+  // Аватар
   profileAvatar,
-  popupUpdateAvatar,
+  avatarPopup,
   avatarUpdateInput,
 } from './constnts.js';
 
@@ -43,10 +44,12 @@ const updateUserInfo = ({name, about, avatar, _id}) => {
 const submitEditProfileForm =(evt) => { 
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   renderLoading(profilePopup, true);
+
     setUserInfo({
       name: nameInput.value,
       about: jobInput.value
     })
+    
     .then((info) =>{
       updateUserInfo(info);
       closePopup(profilePopup);
@@ -63,19 +66,19 @@ const submitEditProfileForm =(evt) => {
 
 const submitEditAvatarForm = (evt) =>{
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-  renderLoading(popupUpdateAvatar, true);
-
+  renderLoading(avatarPopup, true);
+  
   setUserAvatar({
     avatar: avatarUpdateInput.value,
   })
     .then((data) => {
       updateUserInfo(data);
-      closePopup(popupUpdateAvatar);
+      closePopup(avatarPopup);
     })
     .catch((err) => console.log(`Ошибка при обновлении данных пользователя: ${err}`)
     )
     .finally(() => {
-      renderLoading(popupUpdateAvatar);
+      renderLoading(avatarPopup);
     })
 }
 
@@ -84,12 +87,12 @@ formAddCard.addEventListener('submit', handleCardFormSubmit);
 // добавил слушателя на событе клик по кнопке редактирования профиля, в качестве коллбэка добавил функцию
 profileEditBtn.addEventListener('click', function () {
   fillProfileInfo();
-  clearValidation(profilePopup, settings);
+  clearValidation(profilePopup, settings)
   openPopup(profilePopup);  // вызвал функцию открытию popup и в качестве параметра передал ей popup редактирования профиля
 });
 
 //  Функция сохранения данных в форму профиля
-formElement.addEventListener('submit', submitEditProfileForm);
+formElement.addEventListener('submit', submitEditProfileForm, submitEditAvatarForm);
 
 
 cardAddBtn.addEventListener('click', function () {
@@ -99,7 +102,7 @@ cardAddBtn.addEventListener('click', function () {
 
 
 profileAvatar.addEventListener('click', function () {
-  openPopup(popupUpdateAvatar);
+  openPopup(avatarPopup);
 });
 
 enableValidation(settings);
