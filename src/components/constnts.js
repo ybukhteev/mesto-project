@@ -21,6 +21,6 @@ export const formAddCard = cardPopup.querySelector('.formAddCard');
 export const formSubmit = document.querySelector('.form__submit-add');
 
 export const profileAvatar = document.querySelector('.avatar-box');
-export const avatarPopup= document.querySelector('.popup_update-avatar');
+export const avatarPopup = document.querySelector('.popup_update-avatar');
 export const formUpdateAvatar = document.querySelector('.profileAvatarEdit');
 export const avatarUpdateInput = document.querySelector('#avatar');
