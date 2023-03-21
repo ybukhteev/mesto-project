@@ -14,6 +14,7 @@ import {
   // Аватар
   profileAvatar,
   avatarPopup,
+  formUpdateAvatar,
   avatarUpdateInput,
 } from './constnts.js';
 
@@ -21,7 +22,7 @@ import { openPopup, closePopup} from './modal.js';
 import { renderCards, handleCardFormSubmit } from './card';
 import { clearValidation, enableValidation } from './validate.js';
 import { renderLoading, settings} from './utils.js';
-import { getUserInfo, getCardList, setUserInfo } from './api';
+import { getUserInfo, getCardList, setUserInfo, setUserAvatar } from './api';
 
 let userId = null;
 
@@ -44,7 +45,6 @@ const updateUserInfo = ({name, about, avatar, _id}) => {
 const submitEditProfileForm =(evt) => { 
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   renderLoading(profilePopup, true);
-
     setUserInfo({
       name: nameInput.value,
       about: jobInput.value
@@ -61,18 +61,13 @@ const submitEditProfileForm =(evt) => {
     })
 }   
 
-// Инициализация попапа профиля
-
-
 const submitEditAvatarForm = (evt) =>{
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   renderLoading(avatarPopup, true);
-  
-  setUserAvatar({
-    avatar: avatarUpdateInput.value,
-  })
-    .then((data) => {
-      updateUserInfo(data);
+  setUserAvatar(avatarUpdateInput.value)
+    .then((res) => {
+      profileAvatar.src = res.avatar;
+      updateUserInfo(res);
       closePopup(avatarPopup);
     })
     .catch((err) => console.log(`Ошибка при обновлении данных пользователя: ${err}`)
@@ -92,7 +87,9 @@ profileEditBtn.addEventListener('click', function () {
 });
 
 //  Функция сохранения данных в форму профиля
-formElement.addEventListener('submit', submitEditProfileForm, submitEditAvatarForm);
+formElement.addEventListener('submit', submitEditProfileForm );
+
+formUpdateAvatar.addEventListener('submit', submitEditAvatarForm);
 
 
 cardAddBtn.addEventListener('click', function () {
