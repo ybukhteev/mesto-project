@@ -38,7 +38,6 @@ export const setUserInfo = ({name, about}) => {
   .then(getResponse);
 }
 
-
 // Функция запроса для получения карточек с сервера
 export const getCardList = () => {
   return fetch(`${config.baseUrl}/cards`, {
