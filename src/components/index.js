@@ -10,101 +10,80 @@ import {
   cardPopup,
   formElement,
   cardAddBtn,
+  cardUserName,
+  cardStatus,
   formAddCard,
+  formSubmit,
   profileAvatar,
-  avatarPopup,
+  popupUpdateAvatar,
   formUpdateAvatar,
   avatarUpdateInput,
+  cardsSection
 } from './constnts.js';
 
-import { openPopup, closePopup} from './modal.js';
-import { renderCards, handleCardFormSubmit, deleteOwnCardAgree } from './card';
-import { clearValidation, enableValidation } from './validate.js';
-import { renderLoading, settings} from './utils.js';
-import { getUserInfo, getCardList, setUserInfo, setUserAvatar } from './api';
+import { openPopup, closePopup } from './modal.js';
+import { addCard, renderCard } from './card';
+import { enableValidation } from './validate.js';
+import { settings } from './utils.js';
 
-let userId = null;
+import { getCards, getProfileInfo, addNewCard } from './api.js';
 
-const fillProfileInfo = () => {
-  nameInput.value = profileName.textContent; // добавил в содержимое элемента строковое значение, представляющее значение текущего узла
-  jobInput.value = profileStatus.textContent; // добавил в содержимое элемента строковое значение, представляющее значение текущего узла
+let userId;
+
+
+
+
+// Добавление новой карточки    
+export function handleFormSubmitCardAdd(evt) {
+  evt.preventDefault();
+  addNewCard(cardUserName.value, cardStatus.value)
+    .then(card => renderCard(addCard(card.name, card.link, card.likes, card.owner._id, card._id, userId)))
+    .then(() => closePopup(cardPopup))
+    .catch(err => console.log(err))
 }
 
-export const getUserId = () => {
-  return userId;
-};
-
-const updateUserInfo = ({name, about, avatar, _id}) => {
-  userId = _id;
-  profileName.textContent = name;
-  profileStatus.textContent = about;
-  profileAvatar.style.backgroundImage = `url(${avatar})`;
-};
-
-const submitEditProfileForm =(evt) => { 
-  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-  renderLoading(profilePopup, true);
-    setUserInfo({
-      name: nameInput.value,
-      about: jobInput.value
-    })
-    
-    .then((info) =>{
-      updateUserInfo(info);
-      closePopup(profilePopup);
-    })
-    .catch((err) => console.log(`Ошибка при обновлении данных пользователя: ${err}`)
-    )
-    .finally(() => {
-      renderLoading(profilePopup);
-    })
-}   
-
-const submitEditAvatarForm = (evt) =>{
-  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-  renderLoading(avatarPopup, true);
-  setUserAvatar(avatarUpdateInput.value)
-    .then((res) => {
-      profileAvatar.src = res.avatar;
-      updateUserInfo(res);
-      closePopup(avatarPopup);
-    })
-    .catch((err) => console.log(`Ошибка при обновлении данных пользователя: ${err}`)
-    )
-    .finally(() => {
-      renderLoading(avatarPopup);
-    })
-}
-
-formAddCard.addEventListener('submit', handleCardFormSubmit);
+formAddCard.addEventListener('submit', handleFormSubmitCardAdd);
 
 // добавил слушателя на событе клик по кнопке редактирования профиля, в качестве коллбэка добавил функцию
 profileEditBtn.addEventListener('click', function () {
-  fillProfileInfo();
-  clearValidation(profilePopup, settings)
+  nameInput.value = profileName.textContent; // добавил в содержимое элемента строковое значение, представляющее значение текущего узла
+  jobInput.value = profileStatus.textContent; // добавил в содержимое элемента строковое значение, представляющее значение текущего узла
   openPopup(profilePopup);  // вызвал функцию открытию popup и в качестве параметра передал ей popup редактирования профиля
 });
 
-//  Функция сохранения данных в форму профиля
-formElement.addEventListener('submit', submitEditProfileForm );
+function submitEditProfileForm(evt) {
+  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
+  profileName.textContent = nameInput.value;
+  profileStatus.textContent = jobInput.value;
+  closePopup(profilePopup);
+}
 
-formUpdateAvatar.addEventListener('submit', submitEditAvatarForm);
-
+//  функция сохранения данных в форму профиля
+formElement.addEventListener('submit', submitEditProfileForm);
 
 cardAddBtn.addEventListener('click', function () {
-  clearValidation(cardPopup, settings);
   openPopup(cardPopup);
 });
 
 profileAvatar.addEventListener('click', function () {
-  openPopup(avatarPopup);
+  openPopup(popupUpdateAvatar);
 });
+
+function submitUpdateAvatar(evt) {
+  evt.preventDefault();
+  const avatarImg = document.querySelector('.profile__avatar');
+  avatarImg.src = avatarUpdateInput.value;
+  closePopup(popupUpdateAvatar);
+}
+
+formUpdateAvatar.addEventListener('submit', submitUpdateAvatar);
 
 enableValidation(settings);
 
-Promise.all([getUserInfo(), getCardList()])
-  .then(([userData, cards]) => {
-    updateUserInfo(userData);
+// загрузка с сервера данных пользователя и карточек
+Promise.all([getProfileInfo(), getCards()])
+  .then(([user, cards]) => {
+    updateProfileInfo(user);
     renderCards(cards);
   })
-  .catch((err) => console.log(err));
+  .catch(err => console.log(err))
