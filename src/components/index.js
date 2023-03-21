@@ -11,7 +11,6 @@ import {
   formElement,
   cardAddBtn,
   formAddCard,
-  // Аватар
   profileAvatar,
   avatarPopup,
   formUpdateAvatar,
@@ -19,7 +18,7 @@ import {
 } from './constnts.js';
 
 import { openPopup, closePopup} from './modal.js';
-import { renderCards, handleCardFormSubmit } from './card';
+import { renderCards, handleCardFormSubmit, deleteOwnCardAgree } from './card';
 import { clearValidation, enableValidation } from './validate.js';
 import { renderLoading, settings} from './utils.js';
 import { getUserInfo, getCardList, setUserInfo, setUserAvatar } from './api';
@@ -96,7 +95,6 @@ cardAddBtn.addEventListener('click', function () {
   clearValidation(cardPopup, settings);
   openPopup(cardPopup);
 });
-
 
 profileAvatar.addEventListener('click', function () {
   openPopup(avatarPopup);

@@ -46,14 +46,11 @@ export const createCard = ({name, link, likes, owner, _id}) => {
   const cardImg = cardEl.querySelector('.card__img');
   
   const likeButton = cardEl.querySelector('.card__like');
-  const deleteButton = cardEl.querySelector('.card__trash');
 
   const currentUserId = getUserId();
   
   cardEl.querySelector('.card__desc').textContent = name;
   cardImg.src = link;
-
-  deleteButton.classList.toggle('card__trash_hidden', owner.id !== currentUserId);
 
   cardImg.addEventListener('click', () => {
     previewImage({name, link})
@@ -64,10 +61,6 @@ export const createCard = ({name, link, likes, owner, _id}) => {
   likeButton.addEventListener('click', () => {
     likeClick(cardEl, _id, currentUserId);
   });
-
-  deleteButton.addEventListener('click', () => {
-    deleteCard(cardEl, currentUserId);
-  })
 
   return cardEl;
 };

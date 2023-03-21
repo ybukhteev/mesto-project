@@ -69,15 +69,6 @@ export const changeLikeCardInfo = (cardId, like) => {
   .then(getResponse);
 }
 
-// Функция запроса для удаления карточки
-export const deleteCard = (cardId) => {
-  return fetch(`${config.baseUrl}/cards/${cardId}`, {
-    method: 'DELETE',
-    headers: config.headers
-  })
-  .then(getResponse);
-}
-
 // Функция обновления аватара пользователя
 export const setUserAvatar = (link) => {
   return fetch(`${config.baseUrl}/users/me/avatar`, {
