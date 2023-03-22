@@ -1,6 +1,6 @@
-import { cardsTemplate, cardsSection, cardPopup, popupImgs, popupView,  popupImgsBox, popupImgsTitle, cardUserName , cardStatus} from './constnts.js';
+import { cardsTemplate, cardsSection, cardPopup, popupImgs, popupView, popupImgsTitle, cardUserName , cardStatus} from './constnts.js';
 import { closePopup, openPopup } from './modal.js';
-import { addCard, changeLikeCardInfo, deleteCard } from './api.js';
+import { addCard, changeLikeCardInfo } from './api.js';
 import { renderLoading } from './utils.js';
 import { getUserId } from './index.js';
 
