@@ -79,3 +79,11 @@ export const setUserAvatar = (link) => {
  })
     .then(getResponse);
 }
+
+export const deleteCard = (cardId) => {
+  return fetch(`${config.baseUrl}/cards/${cardId}`, {
+    method: 'DELETE',
+    headers: config.headers
+  })
+  .then(getResponse);
+}

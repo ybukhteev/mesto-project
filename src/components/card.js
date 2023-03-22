@@ -1,6 +1,6 @@
 import { cardsTemplate, cardsSection, cardPopup, popupImgs, popupView, popupImgsTitle, cardUserName , cardStatus} from './constnts.js';
 import { closePopup, openPopup } from './modal.js';
-import { addCard, changeLikeCardInfo } from './api.js';
+import { addCard, changeLikeCardInfo, deleteCard } from './api.js';
 import { renderLoading } from './utils.js';
 import { getUserId } from './index.js';
 
@@ -40,6 +40,7 @@ const likeClick = (cardEl, cardId, currentUserId) => {
     });
   };
 
+
 // Функция создания новой карточки
 export const createCard = ({name, link, likes, owner, _id}) => {
   const cardEl = cardsTemplate.querySelector('.card').cloneNode(true);
@@ -47,7 +48,14 @@ export const createCard = ({name, link, likes, owner, _id}) => {
   
   const likeButton = cardEl.querySelector('.card__like');
 
+  const deleteBtn = cardEl.querySelector('.card__trash');
+
   const currentUserId = getUserId();
+
+  deleteBtn.classList.toggle(
+    'card__trash_hidden',
+    owner._id !== currentUserId
+  )
   
   cardEl.querySelector('.card__desc').textContent = name;
   cardImg.src = link;
@@ -61,6 +69,14 @@ export const createCard = ({name, link, likes, owner, _id}) => {
   likeButton.addEventListener('click', () => {
     likeClick(cardEl, _id, currentUserId);
   });
+
+deleteBtn.addEventListener('click', () => {
+  deleteCard(_id)
+    .then (() => {
+      cardEl.remove()
+    })
+    .catch((err) => console.log(err))
+})
 
   return cardEl;
 };
