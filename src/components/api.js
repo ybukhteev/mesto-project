@@ -59,15 +59,6 @@ export const addCard = ({name, link}) => {
     .then(getResponse);
 };
 
-// Функция запроса для добавления/удаления лайка 
-export const changeLikeCardInfo = (cardId, like) => {
-  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
-    method: like? 'PUT': 'DELETE',
-    headers: config.headers
-  })
-  .then(getResponse);
-}
-
 // Функция обновления аватара пользователя
 export const setUserAvatar = (link) => {
   return fetch(`${config.baseUrl}/users/me/avatar`, {
@@ -78,4 +69,13 @@ export const setUserAvatar = (link) => {
     }) 
  })
     .then(getResponse);
+}
+
+// Функция запроса для добавления/удаления лайка 
+export const changeLikeCardInfo = (cardId, like) => {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: like? 'PUT': 'DELETE',
+    headers: config.headers
+  })
+  .then(getResponse);
 }
