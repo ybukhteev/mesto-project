@@ -15,10 +15,11 @@ import {
   avatarPopup,
   formUpdateAvatar,
   avatarUpdateInput,
+  formSubmit
 } from './constnts.js';
 
 import { openPopup, closePopup} from './modal.js';
-import { renderCards, handleCardFormSubmit, deleteOwnCardAgree } from './card';
+import { renderCards, handleCardFormSubmit } from './card';
 import { clearValidation, enableValidation } from './validate.js';
 import { renderLoading, settings} from './utils.js';
 import { getUserInfo, getCardList, setUserInfo, setUserAvatar } from './api';
@@ -94,6 +95,8 @@ formUpdateAvatar.addEventListener('submit', submitEditAvatarForm);
 cardAddBtn.addEventListener('click', function () {
   clearValidation(cardPopup, settings);
   openPopup(cardPopup);
+  formSubmit.setAttribute('disabled', true);
+  formSubmit.classList.add('form__submit_inactive');
 });
 
 profileAvatar.addEventListener('click', function () {
