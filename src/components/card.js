@@ -1,12 +1,12 @@
-import { cardsTemplate, cardsSection, cardPopup, popupImgs, popupView, popupImgsTitle, cardUserName , cardStatus} from './constnts.js';
+import { cardsTemplate, cardsSection, cardPopup, popupImgs, popupView, popupImgsTitle, cardUserName, cardStatus } from './constnts.js';
 import { closePopup, openPopup } from './modal.js';
-import { addCard, changeLikeCardInfo, deleteCard } from './api.js';
+import { addCard, changeLikeCardInfo, deleteCard } from './Api.js';
 import { renderLoading } from './utils.js';
 import { getUserId } from './index.js';
 
 //  функция рендеринга карточек в контейнере
 export const renderCards = (cards) => {
-  cards.forEach((card)=> { 
+  cards.forEach((card) => {
     cardsSection.prepend(createCard(card));
   });
 };
@@ -38,14 +38,14 @@ const likeClick = (cardEl, cardId, currentUserId) => {
     .catch((err) => {
       console.log(`Ошибка добавления лайка: ${err}`);
     });
-  };
+};
 
 
 // Функция создания новой карточки
-export const createCard = ({name, link, likes, owner, _id}) => {
+export const createCard = ({ name, link, likes, owner, _id }) => {
   const cardEl = cardsTemplate.querySelector('.card').cloneNode(true);
   const cardImg = cardEl.querySelector('.card__img');
-  
+
   const likeButton = cardEl.querySelector('.card__like');
 
   const deleteBtn = cardEl.querySelector('.card__trash');
@@ -56,12 +56,12 @@ export const createCard = ({name, link, likes, owner, _id}) => {
     'card__trash_hidden',
     owner._id !== currentUserId
   )
-  
+
   cardEl.querySelector('.card__desc').textContent = name;
   cardImg.src = link;
 
   cardImg.addEventListener('click', () => {
-    previewImage({name, link})
+    previewImage({ name, link })
   });
 
   updateLikes(cardEl, likes, currentUserId);
@@ -70,13 +70,13 @@ export const createCard = ({name, link, likes, owner, _id}) => {
     likeClick(cardEl, _id, currentUserId);
   });
 
-deleteBtn.addEventListener('click', () => {
-  deleteCard(_id)
-    .then (() => {
-      cardEl.remove()
-    })
-    .catch((err) => console.log(err))
-})
+  deleteBtn.addEventListener('click', () => {
+    deleteCard(_id)
+      .then(() => {
+        cardEl.remove()
+      })
+      .catch((err) => console.log(err))
+  })
 
   return cardEl;
 };
@@ -98,4 +98,4 @@ export const handleCardFormSubmit = (evt) => {
     .finally(() => {
       renderLoading(cardPopup);
     })
-  };
+};

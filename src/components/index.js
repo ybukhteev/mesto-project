@@ -18,13 +18,28 @@ import {
   formSubmit
 } from './constnts.js';
 
-import { openPopup, closePopup} from './modal.js';
+import { openPopup, closePopup } from './modal.js';
 import { renderCards, handleCardFormSubmit } from './card';
 import { clearValidation, enableValidation } from './validate.js';
-import { renderLoading, settings} from './utils.js';
-import { getUserInfo, getCardList, setUserInfo, setUserAvatar } from './api';
+import { renderLoading, settings } from './utils.js';
+import { getUserInfo, getCardList, setUserInfo, setUserAvatar } from './Api';
 
 let userId = null;
+
+
+
+// Cоздал объект config в котром указал URL и заголовки для fetch запросов
+// Адрес сервера проекта Mesto: https://mesto.nomoreparties.co
+// Передавать токен нужно в каждом запросе
+
+const api = new Api({
+  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-22', // идентификатор группы plus-cohort-22
+  headers: {
+    authorization: '8f3ed13c-ae6e-4a59-b837-9d4380da0d56', // токен, котрый нужно передавать при запросе в заголовке authorization
+    'Content-Type': 'application/json'
+  }
+});
+
 
 const fillProfileInfo = () => {
   nameInput.value = profileName.textContent; // добавил в содержимое элемента строковое значение, представляющее значение текущего узла
@@ -35,22 +50,21 @@ export const getUserId = () => {
   return userId;
 };
 
-const updateUserInfo = ({name, about, avatar, _id}) => {
+const updateUserInfo = ({ name, about, avatar, _id }) => {
   userId = _id;
   profileName.textContent = name;
   profileStatus.textContent = about;
   profileAvatar.style.backgroundImage = `url(${avatar})`;
 };
 
-const submitEditProfileForm =(evt) => { 
+const submitEditProfileForm = (evt) => {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   renderLoading(profilePopup, true);
-    setUserInfo({
-      name: nameInput.value,
-      about: jobInput.value
-    })
-    
-    .then((info) =>{
+  setUserInfo({
+    name: nameInput.value,
+    about: jobInput.value
+  })
+    .then((info) => {
       updateUserInfo(info);
       closePopup(profilePopup);
     })
@@ -59,9 +73,9 @@ const submitEditProfileForm =(evt) => {
     .finally(() => {
       renderLoading(profilePopup);
     })
-}   
+}
 
-const submitEditAvatarForm = (evt) =>{
+const submitEditAvatarForm = (evt) => {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   renderLoading(avatarPopup, true);
   setUserAvatar(avatarUpdateInput.value)
@@ -87,7 +101,7 @@ profileEditBtn.addEventListener('click', function () {
 });
 
 //  Функция сохранения данных в форму профиля
-formElement.addEventListener('submit', submitEditProfileForm );
+formElement.addEventListener('submit', submitEditProfileForm);
 
 formUpdateAvatar.addEventListener('submit', submitEditAvatarForm);
 
@@ -114,4 +128,3 @@ Promise.all([getUserInfo(), getCardList()])
 
 
 
-  
