@@ -18,11 +18,12 @@ import {
   formSubmit
 } from './constnts.js';
 
-import { openPopup, closePopup } from './modal.js';
-import { renderCards, handleCardFormSubmit } from './card';
-import { clearValidation, enableValidation } from './validate.js';
+
 import { renderLoading, settings } from './utils.js';
-import { getUserInfo, getCardList, setUserInfo, setUserAvatar } from './api';
+import Card from './card';
+import Api from './api';
+import Popup from './Popup';
+import FormValidator from './FormValidator';
 
 let userId = null;
 
