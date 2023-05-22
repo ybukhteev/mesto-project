@@ -1,5 +1,5 @@
 // Создал класс Api на основе которого будут создаваться объекты запросов
-class Api {
+export default class Api {
   constructor({ baseUrl, headers }) {
     this.baseUrl = baseUrl;
     this.headers = headers;
@@ -12,7 +12,7 @@ class Api {
       return res.json();
     }
 
-    // Если ошибка, отклоняем промис
+    // Если ошибка, отклоняем промис      
     return Promise.reject(`Ошибка: ${res.status}`);
   }
 
