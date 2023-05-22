@@ -1,4 +1,4 @@
-import {buttonClosePopup, popupList } from './constnts.js';
+import { buttonClosePopup, popupList } from './constnts.js';
 
 // добавил функцию открытия popup
 export function openPopup(popup) {
@@ -14,7 +14,7 @@ export function closePopup(popup) {
 
 // зыкрытие popup по клавише ESC
 export function closeByEsc(evt) {
-  if ( evt.key === 'Escape') {
+  if (evt.key === 'Escape') {
     const openPopup = document.querySelector('.popup_opened');
     closePopup(openPopup);
   }

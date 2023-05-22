@@ -1,101 +1,85 @@
-import { cardsTemplate, cardsSection, cardPopup, popupImgs, popupView, popupImgsTitle, cardUserName, cardStatus } from './constnts.js';
-import { closePopup, openPopup } from './modal.js';
-import { addCard, changeLikeCardInfo, deleteCard } from './Api.js';
-import { renderLoading } from './utils.js';
-import { getUserId } from './index.js';
+// Объявляю  класс Card
+export default class Card {
+  // В метод конструктора передается  объект с данными карточки, айди текущего юзера, селектор template-элемента карточки 
+  // и объект с тремя обработчиками: открытие попапа с картинкой, лайк
+  constructor(cardData, userId, cardTemplateSelector, { previewImage, likeClick, deleteCard }) {
+    this.cardData = cardData;
+    this.name = cardData.name;
+    this.link = cardData.link;
+    this.likes = cardData.likes;
+    this.owner = cardData.owner;
+    this._id = cardData._id;
+    this._userId = userId;
+    this.cardtTemplateSelector = cardTemplateSelector;
 
-//  функция рендеринга карточек в контейнере
-export const renderCards = (cards) => {
-  cards.forEach((card) => {
-    cardsSection.prepend(createCard(card));
-  });
-};
+    this._previewImage = previewImage;
+    this._likeClick = likeClick;
+    this._deleteCard = deleteCard;
 
-// Функция открытия попапа картинки
-const previewImage = (data) => {
-  popupView.src = data.link;
-  popupImgs.alt = data.name;
-  popupImgsTitle.textContent = data.name;
-  openPopup(popupImgs);
-}
+    this.likeActiveClass = 'card__like_active ';
+  }
 
-const updateLikes = (cardEl, likes, currentUserId) => {
-  const likeButton = cardEl.querySelector('.card__like');
-  const likeCounter = cardEl.querySelector('.card__like-count');
+  // Создаю приватный метод для получения готовой разметки перед размещением на страницу
+  _getElement() {
+    //  Забираю разметку из HTML и клонирую элемент 
+    const cardEl = document
+      .querySelector(this.cardTemplateSelector)
+      .content.querySelector('.card')
+      .cloneNode(true);
 
-  likeCounter.textContent = likes.length.toString();
-  const isLiked = Boolean(likes.find((item) => item._id === currentUserId));
-  likeButton.classList.toggle('card__like_active', isLiked)
-};
+    //  Возвращаю DOM-элемент карточки  
+    return cardEl;
+  }
 
-const likeClick = (cardEl, cardId, currentUserId) => {
-  const likeButton = cardEl.querySelector('.card__like');
-  const isLiked = likeButton.classList.contains('card__like_active');
-  changeLikeCardInfo(cardId, !isLiked)
-    .then((cardData) => {
-      updateLikes(cardEl, cardData.likes, currentUserId);
-    })
-    .catch((err) => {
-      console.log(`Ошибка добавления лайка: ${err}`);
+  _setEventlistener() {
+    this._likeButton.addEventListener('click', (evt) => {
+      this._likeClick(evt);
     });
-};
 
+    this._cardImg.addEventListener('click', () => {
+      this._previewImage(this.name, this.link);
+    })
 
-// Функция создания новой карточки
-export const createCard = ({ name, link, likes, owner, _id }) => {
-  const cardEl = cardsTemplate.querySelector('.card').cloneNode(true);
-  const cardImg = cardEl.querySelector('.card__img');
+    if (this._userId === this.owner) {
+      this._deleteButton.addEventListener('click', (evt) => {
+        this._deleteCard(evt.target, this._id);
+      });
+    } else {
+      this._deleteButton.remove();
+    }
+  }
 
-  const likeButton = cardEl.querySelector('.card__like');
+  _updateLikes() {
+    this.likeCounter.textContent = this.likes.length.toString();
+    this.isLiked = Boolean(this.likes.find((item) => item.id === this.userId));
+    this.likeButton.classList.toggle(this.likeActiveClass,)
+  }
 
-  const deleteBtn = cardEl.querySelector('.card__trash');
-
-  const currentUserId = getUserId();
-
-  deleteBtn.classList.toggle(
-    'card__trash_hidden',
-    owner._id !== currentUserId
-  )
-
-  cardEl.querySelector('.card__desc').textContent = name;
-  cardImg.src = link;
-
-  cardImg.addEventListener('click', () => {
-    previewImage({ name, link })
-  });
-
-  updateLikes(cardEl, likes, currentUserId);
-
-  likeButton.addEventListener('click', () => {
-    likeClick(cardEl, _id, currentUserId);
-  });
-
-  deleteBtn.addEventListener('click', () => {
-    deleteCard(_id)
-      .then(() => {
-        cardEl.remove()
+  _likeClick() {
+    changeLikeCardInfo(this._id, !isLiked)
+      .then((cardData) => {
+        this._updateLikes(cardData.likes);
       })
-      .catch((err) => console.log(err))
-  })
+      .catch((err) => {
+        console.log(`Ошибка добавления лайка: ${err}`);
+      })
+  }
 
-  return cardEl;
-};
+  generate() {
+    // Запишу разметку в приватное поле _element, чтобы у других элементов появился к ней доступ
+    this._element = this._getElement();
 
-export const handleCardFormSubmit = (evt) => {
-  evt.preventDefault();
+    this._cardImg = this._element.querySelector('.card__img');
+    this._cardDescription = this._element.querySelector('.card__desc');
+    this._likeCounter = this._element.querySelector('.card__like_count');
+    this._likeButton = this._element.querySelector('.card__like');
+    this._deleteButton = this._element.querySelector('.card__trash');
 
-  renderLoading(cardPopup, true);
-  addCard({
-    name: cardUserName.value,
-    link: cardStatus.value,
-  })
-    .then((cardData) => {
-      cardsSection.prepend(createCard(cardData));
-      closePopup(cardPopup);
-      evt.target.reset();
-    })
-    .catch((err) => console.log(`Ошибка при добавлении новой карточки на сервер: ${err}`))
-    .finally(() => {
-      renderLoading(cardPopup);
-    })
-};
+    this.cardImg.alt = this._name;
+    this.cardImg.src = this._link;
+    this._cardDescription.textContent = this._name;
+
+    // Возвращаю элемент в качестве реузльтата работы метода 
+    return this._element;
+  }
+}   
