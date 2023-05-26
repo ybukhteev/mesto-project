@@ -10,28 +10,23 @@ export default class Card {
     this.owner = cardData.owner;
     this._id = cardData._id;
     this._userId = userId;
-    this.cardtTemplateSelector = cardTemplateSelector;
-
+    this._cardtTemplateSelector = cardTemplateSelector;
     this._previewImage = previewImage;
     this._likeClick = likeClick;
     this._deleteCard = deleteCard;
-
     this.likeActiveClass = 'card__like_active ';
   }
 
   // Создаю приватный метод для получения готовой разметки перед размещением на страницу
   _getElement() {
     //  Забираю разметку из HTML и клонирую элемент 
-    const cardEl = document
-      .querySelector(this.cardTemplateSelector)
-      .content.querySelector('.card')
+    const cardEl = document.querySelector(this._cardTemplateSelector)
+      .content.querySelector(".card")
       .cloneNode(true);
-
-    //  Возвращаю DOM-элемент карточки  
     return cardEl;
   }
 
-  _setEventlistener() {
+  _setEventListeners() {
     this._likeButton.addEventListener('click', (evt) => {
       this._likeClick(evt);
     });
@@ -47,15 +42,17 @@ export default class Card {
     } else {
       this._deleteButton.remove();
     }
+
   }
 
   _updateLikes() {
     this.likeCounter.textContent = this.likes.length.toString();
     this.isLiked = Boolean(this.likes.find((item) => item.id === this.userId));
-    this.likeButton.classList.toggle(this.likeActiveClass,)
+    this.likeButton.classList.toggle(this.likeActiveClass)
   }
 
   _likeClick() {
+    const isLiked = likeButton.classList.contains('card__like_active');
     changeLikeCardInfo(this._id, !isLiked)
       .then((cardData) => {
         this._updateLikes(cardData.likes);
@@ -67,7 +64,7 @@ export default class Card {
 
   generate() {
     // Запишу разметку в приватное поле _element, чтобы у других элементов появился к ней доступ
-    this._element = this._getElement();
+    this.element = this._getElement();
 
     this._cardImg = this._element.querySelector('.card__img');
     this._cardDescription = this._element.querySelector('.card__desc');
@@ -79,7 +76,9 @@ export default class Card {
     this.cardImg.src = this._link;
     this._cardDescription.textContent = this._name;
 
-    // Возвращаю элемент в качестве реузльтата работы метода 
-    return this._element;
+    this._setEventListeners();
+
+    // Возвращаю элемент в каче стве реузльтата работы метода 
+    return this.element;
   }
-}   
+} 

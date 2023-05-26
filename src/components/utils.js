@@ -9,7 +9,7 @@ export const settings = {
 
 export const popupConfig = {
   profilePopup: '.popup_edit-profile',
-  popupUpdateAvatar:'.popup_update-avatar',
+  popupUpdateAvatar: '.popup_update-avatar',
   cardPopup: '.popup_add-card',
   popupImgs: '.popup_imgs',
 }

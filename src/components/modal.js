@@ -26,7 +26,7 @@ buttonClosePopup.forEach(btn => {
   btn.addEventListener('click', () => closePopup(popup));
 })
 
-popupList.forEach(item => (
+popupList.forEach((item) => (
   item.addEventListener('click', (evt) => {
     if (evt.target === item) {
       closePopup(item);

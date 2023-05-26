@@ -20,7 +20,7 @@ export default class UserInfo {
 
   _updateUserInfo() {
     this.profileName.textContent = this.name;
-    this.profileStatus.textContent = thus.about;
+    this.profileStatus.textContent = this.about;
   }
 
   setUserInfo({ name, about, avatar, _id }) {

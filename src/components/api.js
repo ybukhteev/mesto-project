@@ -24,12 +24,12 @@ export default class Api {
 
 
   // Загрузка информации о пользователе с сервера
-  getUserInfo = () => {
-    return request(`${this.baseUrl}/users/me`, { headers: this.headers })
+  getApiUserInfo = () => {
+    return this.request(`${this.baseUrl}/users/me`, { headers: this.headers })
   }
 
-  setUserInfo = ({ name, about }) => {
-    return request(`${this.baseUrl}/users/me`, {
+  setApiUserInfo = ({ name, about }) => {
+    return this.request(`${this.baseUrl}/users/me`, {
       method: 'PATCH',
       headers: this.headers,
       body: JSON.stringify({
@@ -41,14 +41,14 @@ export default class Api {
 
   // Функция запроса для получения карточек с сервера
   getCardList = () => {
-    return request(`${this.baseUrl}/cards`, {
+    return this.request(`${this.baseUrl}/cards`, {
       headers: this.headers
     })
   }
 
   // Функци запроса для добавления карточки на сервер
   addCard = ({ name, link }) => {
-    return request(`${this.baseUrl}/cards`, {
+    return this.request(`${this.baseUrl}/cards`, {
       method: 'POST',
       headers: this.headers,
       body: JSON.stringify({
@@ -60,7 +60,7 @@ export default class Api {
 
   // Функция запроса для добавления/удаления лайка 
   changeLikeCardInfo = (cardId, like) => {
-    return request(`${this.baseUrl}/cards/likes/${cardId}`, {
+    return this.request(`${this.baseUrl}/cards/likes/${cardId}`, {
       method: like ? 'PUT' : 'DELETE',
       headers: this.headers
     })
@@ -68,7 +68,7 @@ export default class Api {
 
   // Функция обновления аватара пользователя
   setUserAvatar = (link) => {
-    return request(`${this.baseUrl}/users/me/avatar`, {
+    return this.request(`${this.baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: this.headers,
       body: JSON.stringify({
@@ -78,7 +78,7 @@ export default class Api {
   }
 
   deleteCard = (cardId) => {
-    return request(`${this.baseUrl}/cards/${cardId}`, {
+    return this.request(`${this.baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
       headers: this.headers
     })
