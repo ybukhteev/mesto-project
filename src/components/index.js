@@ -75,8 +75,8 @@ const cardList = new Section({
 
 
 const profilePopup = new PopupWithForm('.popup_edit-profile', {
-  handleSubmitForm: ({ name, about }) => {
-    return api.setApiUserInfo({ name, about })
+  handleSubmitForm: ({ username, status }) => {
+    return api.setApiUserInfo({ username, status })
       .then((res) => {
         user.setUserInfo(res);
       });
@@ -91,8 +91,8 @@ const profilePopup = new PopupWithForm('.popup_edit-profile', {
 profilePopup.setEventListeners();
 
 const avatarPopup = new PopupWithForm('.popup_update-avatar', {
-  handleSubmitForm: (link) => {
-    return api.setUserAvatar(link)
+  handleSubmitForm: (avatar) => {
+    return api.setUserAvatar(avatar)
       .then((res) => {
         user.setUserInfo(res);
       });
@@ -107,8 +107,8 @@ const avatarPopup = new PopupWithForm('.popup_update-avatar', {
 avatarPopup.setEventListeners();
 
 const cardPopup = new PopupWithForm('.popup_add-card', {
-  handleSubmitForm: ({ name, link }) => {
-    return api.addCard({ name, link }).then((newCardData) => {
+  handleSubmitForm: ({ cardname, url }) => {
+    return api.addCard({ cardname, url }).then((newCardData) => {
       cardList.renderNewItem(newCardData);
     });
   },
@@ -120,6 +120,7 @@ const cardPopup = new PopupWithForm('.popup_add-card', {
   },
 });
 cardPopup.setEventListeners();
+
 
 const imagePopup = new PopupWithImage({
   popupSelector: '.popup_imgs',
@@ -149,3 +150,4 @@ profileEditBtn.addEventListener('click', () => {
 cardAddBtn.addEventListener('click', () => {
   cardPopup.open();
 })
+

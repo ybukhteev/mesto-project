@@ -7,7 +7,7 @@ export default class Card {
     this.name = cardData.name;
     this.link = cardData.link;
     this.likes = cardData.likes;
-    this.owner = cardData.owner;
+    this.owner = cardData.owner._id;
     this._id = cardData._id;
     this._userId = userId;
     this._cardTemplateSelector = cardTemplateSelector;
@@ -37,7 +37,7 @@ export default class Card {
 
     if (this._userId === this.owner) {
       this._deleteButton.addEventListener('click', (evt) => {
-        this._deleteCard(evt.target, this._id);
+        this._deleteCard(evt, this._id);
       });
     } else {
       this._deleteButton.remove();

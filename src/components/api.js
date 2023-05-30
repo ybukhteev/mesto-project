@@ -28,13 +28,13 @@ export default class Api {
     return this.request(`${this.baseUrl}/users/me`, { headers: this.headers })
   }
 
-  setApiUserInfo = ({ name, about }) => {
+  setApiUserInfo = ({ username, status }) => {
     return this.request(`${this.baseUrl}/users/me`, {
       method: 'PATCH',
       headers: this.headers,
       body: JSON.stringify({
-        name: `${name}`,
-        about: `${about}`
+        name: username,
+        about: status
       })
     })
   }
@@ -47,13 +47,13 @@ export default class Api {
   }
 
   // Функци запроса для добавления карточки на сервер
-  addCard = ({ name, link }) => {
+  addCard = ({ cardname, url }) => {
     return this.request(`${this.baseUrl}/cards`, {
       method: 'POST',
       headers: this.headers,
       body: JSON.stringify({
-        name: name,
-        link: link
+        name: cardname,
+        link: url
       })
     })
   };
@@ -72,7 +72,7 @@ export default class Api {
       method: 'PATCH',
       headers: this.headers,
       body: JSON.stringify({
-        avatar: link
+        avatar: link.url
       })
     })
   }
@@ -80,7 +80,10 @@ export default class Api {
   deleteCard = (cardId) => {
     return this.request(`${this.baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
-      headers: this.headers
+      headers: this.headers,
+      body: JSON.stringify({
+        _id: cardId
+      })
     })
   }
 }
