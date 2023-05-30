@@ -1,20 +1,22 @@
 import Popup from './Popup';
 
 export default class PopupWithForm extends Popup {
-  constructor(popupSelector, submitEditForm) {
+  constructor(popupSelector, { handleSubmitForm, showLoader, hideLoader }) {
     super(popupSelector);
     this.popup = document.querySelector(popupSelector);
     this.form = this.popup.querySelector('.form');
-    this.submitEditeForm = submitEditForm;
-    this._inputList = this.form.querySelectorAll('.form__input');
+    this.handleSubmitForm = handleSubmitForm;
+    this._submitHandler = this._submitHandler.bind(this);
+    this.showLoader = showLoader;
+    this.hideLoader = hideLoader;
   }
 
   _getInputValues() {
-    this.forms = {};
+    this._formValues = {};
     this._inputList.forEach((input) =>
-      this.forms[input.name] = input.value);
+      this._formValues[input.name] = input.value);
 
-    return this.forms;
+    return this._formValues;
   }
 
   setInputValues(data) {
@@ -25,11 +27,23 @@ export default class PopupWithForm extends Popup {
 
   _submitHandler(evt) {
     evt.preventDefault();
-    this._submitHandler(evt, this._getInputValues());
+    this.showLoader();
+    this.handleSubmitForm(this._getInputValues())
+      .then(this.close())
+      .catch((err) => {
+        console.log(
+          `Ошибка при отправке обновленных данных пользователя: ${err.message}`
+        );
+      })
+      .finally(() => {
+        this.hideLoader();
+      });
   }
+
 
   setEventListeners() {
     super.setEventListeners();
+    this._inputList = this.form.querySelectorAll('.form__input');
     this.form.addEventListener('submit', this._submitHandler);
   }
 

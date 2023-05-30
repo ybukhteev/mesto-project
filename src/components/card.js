@@ -2,7 +2,7 @@
 export default class Card {
   // В метод конструктора передается  объект с данными карточки, айди текущего юзера, селектор template-элемента карточки 
   // и объект с тремя обработчиками: открытие попапа с картинкой, лайк
-  constructor(cardData, userId, cardTemplateSelector, { previewImage, likeClick, deleteCard }) {
+  constructor(cardData, userId, cardTemplateSelector, { previewImage, changeLike, deleteCard }) {
     this.cardData = cardData;
     this.name = cardData.name;
     this.link = cardData.link;
@@ -10,11 +10,13 @@ export default class Card {
     this.owner = cardData.owner;
     this._id = cardData._id;
     this._userId = userId;
-    this._cardtTemplateSelector = cardTemplateSelector;
+    this._cardTemplateSelector = cardTemplateSelector;
     this._previewImage = previewImage;
-    this._likeClick = likeClick;
+    this._changeLike = changeLike;
     this._deleteCard = deleteCard;
-    this.likeActiveClass = 'card__like_active ';
+    this.likeActiveClass = 'card__like_active';
+
+    this._likeClick = this._likeClick.bind(this);
   }
 
   // Создаю приватный метод для получения готовой разметки перед размещением на страницу
@@ -27,9 +29,7 @@ export default class Card {
   }
 
   _setEventListeners() {
-    this._likeButton.addEventListener('click', (evt) => {
-      this._likeClick(evt);
-    });
+    this._likeButton.addEventListener('click', this._likeClick);
 
     this._cardImg.addEventListener('click', () => {
       this._previewImage(this.name, this.link);
@@ -42,18 +42,20 @@ export default class Card {
     } else {
       this._deleteButton.remove();
     }
-
   }
 
-  _updateLikes() {
-    this.likeCounter.textContent = this.likes.length.toString();
-    this.isLiked = Boolean(this.likes.find((item) => item.id === this.userId));
-    this.likeButton.classList.toggle(this.likeActiveClass)
+  isLiked() {
+    return Boolean(this.likes.find((item) => item._id === this._userId));
+  }
+
+  _updateLikes(likes) {
+    this.likes = likes;
+    this._likeButton.classList.toggle(this.likeActiveClass);
+    this._likeCounter.textContent = this.likes.length.toString();
   }
 
   _likeClick() {
-    const isLiked = likeButton.classList.contains('card__like_active');
-    changeLikeCardInfo(this._id, !isLiked)
+    this._changeLike(this._id, !this.isLiked())
       .then((cardData) => {
         this._updateLikes(cardData.likes);
       })
@@ -64,7 +66,7 @@ export default class Card {
 
   generate() {
     // Запишу разметку в приватное поле _element, чтобы у других элементов появился к ней доступ
-    this.element = this._getElement();
+    this._element = this._getElement();
 
     this._cardImg = this._element.querySelector('.card__img');
     this._cardDescription = this._element.querySelector('.card__desc');
@@ -72,13 +74,18 @@ export default class Card {
     this._likeButton = this._element.querySelector('.card__like');
     this._deleteButton = this._element.querySelector('.card__trash');
 
-    this.cardImg.alt = this._name;
-    this.cardImg.src = this._link;
-    this._cardDescription.textContent = this._name;
+    if (this.isLiked()) {
+      this._likeButton.classList.add(this.likeActiveClass);
+      this._likeCounter.textContent = this.likes.length.toString();
+    }
+
+    this._cardImg.alt = this.name;
+    this._cardImg.src = this.link;
+    this._cardDescription.textContent = this.name;
 
     this._setEventListeners();
 
     // Возвращаю элемент в каче стве реузльтата работы метода 
-    return this.element;
+    return this._element;
   }
 } 

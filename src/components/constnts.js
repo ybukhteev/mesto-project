@@ -25,3 +25,6 @@ export const avatarPopup = document.querySelector('.popup_update-avatar');
 export const formUpdateAvatar = document.querySelector('.profileAvatarEdit');
 export const avatarUpdateInput = document.querySelector('#avatar');
 
+export const buttonSubmit = document.querySelector('.form__submit');
+
+
