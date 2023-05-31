@@ -75,7 +75,7 @@ const cardList = new Section({
         return api.changeLikeCardInfo(cardId, like);
       },
       deleteCard: (cardId) => {
-        return api.deleteCard(cardId);
+        return api.apiDeleteCard(cardId);
       }
     })
 
@@ -141,6 +141,14 @@ const imagePopup = new PopupWithImage({
 })
 
 imagePopup.setEventListeners();
+
+_deleteCard = (cardElement) => {
+  return api.apiDeleteCard(cardElement._id)
+    .then(() => {
+      cardElement._deleteCard()
+        .catch(err => console.log(err))
+    })
+}
 
 Promise.all([api.getApiUserInfo(), api.getCardList()])
   .then(([userData, cards]) => {
