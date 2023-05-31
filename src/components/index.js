@@ -8,7 +8,10 @@ import {
   profileAvatar,
   popupView,
   popupImgsTitle,
-  buttonSubmit
+  buttonSubmit,
+  formEditProfile,
+  formEditCard,
+  formEditAvatar
 } from './constnts.js';
 
 import { settings } from './utils.js';
@@ -18,9 +21,9 @@ import Card from './card';
 import Api from './api';
 import PopupWithForm from './PopupWithForm';
 import PopupWithImage from './PopupWithImage';
-//import FormValidator from './FormValidator';
 import Section from './Section';
 import UserInfo from './UserInfo';
+import FormValidator from './FormValidator';
 
 let currentUserId;
 
@@ -39,6 +42,15 @@ const api = new Api({
     'Content-Type': 'application/json'
   }
 });
+
+const profileValidator = new FormValidator(settings, formEditProfile);
+profileValidator.enableValidation();
+
+const cardValidator = new FormValidator(settings, formEditCard);
+cardValidator.enableValidation();
+
+const avatarValidator = new FormValidator(settings, formEditAvatar);
+avatarValidator.enableValidation();
 
 const user = new UserInfo({
   profileName: profileName,
@@ -140,14 +152,24 @@ Promise.all([api.getApiUserInfo(), api.getCardList()])
   .catch((err) => console.log(err));
 
 profileAvatar.addEventListener('click', () => {
+  formEditAvatar.reset();
+  avatarValidator.resetReopenError();
+  avatarValidator.disableReopenButtonSubmit();
   avatarPopup.open();
 })
 
 profileEditBtn.addEventListener('click', () => {
+  formEditProfile.reset()
+  profileValidator.resetReopenError();
+  profileValidator.disableReopenButtonSubmit();
+  profilePopup.setInputValues(user.getUserInfo());
   profilePopup.open();
 })
 
 cardAddBtn.addEventListener('click', () => {
+  formEditCard.reset();
+  cardValidator.resetReopenError();
+  cardValidator.disableReopenButtonSubmit();
   cardPopup.open();
 })
 

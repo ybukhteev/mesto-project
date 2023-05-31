@@ -27,4 +27,8 @@ export const avatarUpdateInput = document.querySelector('#avatar');
 
 export const buttonSubmit = document.querySelector('.form__submit');
 
+export const formEditProfile = document.querySelector('.formEditProfile');
+export const formEditCard = document.querySelector('.formAddCard');
+export const formEditAvatar = document.querySelector('.profileAvatarEdit')
+
 
