@@ -1,21 +1,22 @@
 import Popup from './Popup';
 
 export default class PopupWithForm extends Popup {
-  consstructor(popupSelector, { submitEditForm, showLoader, hideLoader }) {
+  constructor(popupSelector, { handleSubmitForm, showLoader, hideLoader }) {
+    super(popupSelector);
     this.popup = document.querySelector(popupSelector);
     this.form = this.popup.querySelector('.form');
-    this.submitEditeForm = submitEditForm;
+    this.handleSubmitForm = handleSubmitForm;
+    this._submitHandler = this._submitHandler.bind(this);
     this.showLoader = showLoader;
     this.hideLoader = hideLoader;
   }
 
   _getInputValues() {
-    this.forms = {};
+    this._formValues = {};
     this._inputList.forEach((input) =>
-      this.forms[input.name] = input.value)
-    );
+      this._formValues[input.name] = input.value);
 
-    return this.forms;
+    return this._formValues;
   }
 
   setInputValues(data) {
@@ -27,15 +28,18 @@ export default class PopupWithForm extends Popup {
   _submitHandler(evt) {
     evt.preventDefault();
     this.showLoader();
-    this._submitHandler(this._getInputValues())
+    this.handleSubmitForm(this._getInputValues())
       .then(this.close())
       .catch((err) => {
-        console.log(`Ошибка при отправке обновленных данных пользователя: ${err.message}`);
+        console.log(
+          `Ошибка при отправке обновленных данных пользователя: ${err.message}`
+        );
       })
-      .finnaly(() => {
+      .finally(() => {
         this.hideLoader();
       });
   }
+
 
   setEventListeners() {
     super.setEventListeners();

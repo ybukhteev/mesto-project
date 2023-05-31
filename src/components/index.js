@@ -2,36 +2,40 @@ import '../pages/index.css';
 
 import {
   profileEditBtn,
-  nameInput,
-  jobInput,
-  profilePopup,
   profileName,
   profileStatus,
-  cardPopup,
-  formElement,
   cardAddBtn,
-  formAddCard,
   profileAvatar,
-  avatarPopup,
-  formUpdateAvatar,
-  avatarUpdateInput,
-  formSubmit
+  popupView,
+  popupImgsTitle,
+  buttonSubmit,
+  formEditProfile,
+  formEditCard,
+  formEditAvatar,
+  avatarBox
 } from './constnts.js';
 
+import { settings } from './utils.js';
 
-import { renderLoading, settings } from './utils.js';
+import { showPreloader, hidePreloader } from './utils.js';
 import Card from './card';
 import Api from './api';
-import Popup from './Popup';
+import PopupWithForm from './PopupWithForm';
+import PopupWithImage from './PopupWithImage';
+import Section from './Section';
+import UserInfo from './UserInfo';
 import FormValidator from './FormValidator';
 
-let userId = null;
+let currentUserId;
 
-
-
-// Cоздал объект config в котром указал URL и заголовки для fetch запросов
-// Адрес сервера проекта Mesto: https://mesto.nomoreparties.co
-// Передавать токен нужно в каждом запросе
+/*
+  document.addEventListener("DOMContentLoaded", () => {
+  profilePopup.classList.add("popupTransitions");
+  cardPopup.classList.add("popupTransitions");
+  imagePopup.classList.add("popupTransitions");
+  avatarPopup.classList.add("popupTransitions");
+});
+*/
 
 const api = new Api({
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-22', // идентификатор группы plus-cohort-22
@@ -41,91 +45,130 @@ const api = new Api({
   }
 });
 
+const profileValidator = new FormValidator(settings, formEditProfile);
+profileValidator.enableValidation();
 
-const fillProfileInfo = () => {
-  nameInput.value = profileName.textContent; // добавил в содержимое элемента строковое значение, представляющее значение текущего узла
-  jobInput.value = profileStatus.textContent; // добавил в содержимое элемента строковое значение, представляющее значение текущего узла
+const cardValidator = new FormValidator(settings, formEditCard);
+cardValidator.enableValidation();
+
+const avatarValidator = new FormValidator(settings, formEditAvatar);
+avatarValidator.enableValidation();
+
+const user = new UserInfo({
+  profileName: profileName,
+  profileStatus: profileStatus,
+  profileAvatar: profileAvatar
+})
+
+function setUserId(userId) {
+  currentUserId = userId;
 }
 
-export const getUserId = () => {
-  return userId;
-};
-
-const updateUserInfo = ({ name, about, avatar, _id }) => {
-  userId = _id;
-  profileName.textContent = name;
-  profileStatus.textContent = about;
-  profileAvatar.style.backgroundImage = `url(${avatar})`;
-};
-
-const submitEditProfileForm = (evt) => {
-  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-  renderLoading(profilePopup, true);
-  setUserInfo({
-    name: nameInput.value,
-    about: jobInput.value
-  })
-    .then((info) => {
-      updateUserInfo(info);
-      closePopup(profilePopup);
+const cardList = new Section({
+  items: [],
+  renderer: (item) => {
+    const newCard = new Card(item, currentUserId, "#card-template", {
+      previewImage: (name, link) => {
+        imagePopup.open(name, link);
+      },
+      changeLike: (cardId, like) => {
+        return api.changeLikeCardInfo(cardId, like);
+      },
+      deleteCard: (cardId) => {
+        return api.apiDeleteCard(cardId);
+      }
     })
-    .catch((err) => console.log(`Ошибка при обновлении данных пользователя: ${err}`)
-    )
-    .finally(() => {
-      renderLoading(profilePopup);
-    })
-}
 
-const submitEditAvatarForm = (evt) => {
-  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-  renderLoading(avatarPopup, true);
-  setUserAvatar(avatarUpdateInput.value)
-    .then((res) => {
-      profileAvatar.src = res.avatar;
-      updateUserInfo(res);
-      closePopup(avatarPopup);
-    })
-    .catch((err) => console.log(`Ошибка при обновлении данных пользователя: ${err}`)
-    )
-    .finally(() => {
-      renderLoading(avatarPopup);
-    })
-}
+    const cardElement = newCard.generate();
+    cardList.addItem(cardElement);
+  },
+},
+  '.cards'
+);
 
-formAddCard.addEventListener('submit', handleCardFormSubmit);
-
-// добавил слушателя на событе клик по кнопке редактирования профиля, в качестве коллбэка добавил функцию
-profileEditBtn.addEventListener('click', function () {
-  fillProfileInfo();
-  clearValidation(profilePopup, settings)
-  openPopup(profilePopup);  // вызвал функцию открытию popup и в качестве параметра передал ей popup редактирования профиля
+const profilePopup = new PopupWithForm('.popup_edit-profile', {
+  handleSubmitForm: ({ username, status }) => {
+    return api.setApiUserInfo({ username, status })
+      .then((res) => {
+        user.setUserInfo(res);
+      });
+  },
+  showLoader: () => {
+    showPreloader(buttonSubmit);
+  },
+  hideLoader: () => {
+    hidePreloader(buttonSubmit);
+  }
 });
+profilePopup.setEventListeners();
 
-//  Функция сохранения данных в форму профиля
-formElement.addEventListener('submit', submitEditProfileForm);
-
-formUpdateAvatar.addEventListener('submit', submitEditAvatarForm);
-
-
-cardAddBtn.addEventListener('click', function () {
-  clearValidation(cardPopup, settings);
-  openPopup(cardPopup);
-  formSubmit.setAttribute('disabled', true);
-  formSubmit.classList.add('form__submit_inactive');
+const avatarPopup = new PopupWithForm('.popup_update-avatar', {
+  handleSubmitForm: (link) => {
+    return api.setUserAvatar(link)
+      .then((res) => {
+        user.setUserInfo(res);
+      });
+  },
+  showLoader: () => {
+    showPreloader(buttonSubmit);
+  },
+  hideLoader: () => {
+    hidePreloader(buttonSubmit);
+  },
 });
+avatarPopup.setEventListeners();
 
-profileAvatar.addEventListener('click', function () {
-  openPopup(avatarPopup);
+const cardPopup = new PopupWithForm('.popup_add-card', {
+  handleSubmitForm: ({ cardname, url }) => {
+    return api.addCard({ cardname, url }).then((newCardData) => {
+      cardList.renderNewItem(newCardData);
+    });
+  },
+  showLoader: () => {
+    showPreloader(buttonSubmit);
+  },
+  hideLoader: () => {
+    hidePreloader(buttonSubmit);
+  },
 });
+cardPopup.setEventListeners();
 
-enableValidation(settings);
 
-Promise.all([getUserInfo(), getCardList()])
+const imagePopup = new PopupWithImage({
+  popupSelector: '.popup_imgs',
+  popupImg: popupView,
+  popupImgsTitle: popupImgsTitle
+})
+
+imagePopup.setEventListeners();
+
+Promise.all([api.getApiUserInfo(), api.getCardList()])
   .then(([userData, cards]) => {
-    updateUserInfo(userData);
-    renderCards(cards);
+    setUserId(userData._id);
+    user.setUserInfo(userData);
+    cardList.renderItems(cards);
   })
   .catch((err) => console.log(err));
 
+avatarBox.addEventListener('click', () => {
+  formEditAvatar.reset();
+  avatarValidator.resetReopenError();
+  avatarValidator.disableReopenButtonSubmit();
+  avatarPopup.open();
+})
 
+profileEditBtn.addEventListener('click', () => {
+  formEditProfile.reset()
+  profileValidator.resetReopenError();
+  profileValidator.disableReopenButtonSubmit();
+  profilePopup.setInputValues(user.getUserInfo());
+  profilePopup.open();
+})
+
+cardAddBtn.addEventListener('click', () => {
+  formEditCard.reset();
+  cardValidator.resetReopenError();
+  cardValidator.disableReopenButtonSubmit();
+  cardPopup.open();
+})
 

@@ -24,43 +24,43 @@ export default class Api {
 
 
   // Загрузка информации о пользователе с сервера
-  getUserInfo = () => {
-    return request(`${this.baseUrl}/users/me`, { headers: this.headers })
+  getApiUserInfo = () => {
+    return this.request(`${this.baseUrl}/users/me`, { headers: this.headers })
   }
 
-  setUserInfo = ({ name, about }) => {
-    return request(`${this.baseUrl}/users/me`, {
+  setApiUserInfo = ({ username, status }) => {
+    return this.request(`${this.baseUrl}/users/me`, {
       method: 'PATCH',
       headers: this.headers,
       body: JSON.stringify({
-        name: `${name}`,
-        about: `${about}`
+        name: username,
+        about: status
       })
     })
   }
 
   // Функция запроса для получения карточек с сервера
   getCardList = () => {
-    return request(`${this.baseUrl}/cards`, {
+    return this.request(`${this.baseUrl}/cards`, {
       headers: this.headers
     })
   }
 
   // Функци запроса для добавления карточки на сервер
-  addCard = ({ name, link }) => {
-    return request(`${this.baseUrl}/cards`, {
+  addCard = ({ cardname, url }) => {
+    return this.request(`${this.baseUrl}/cards`, {
       method: 'POST',
       headers: this.headers,
       body: JSON.stringify({
-        name: name,
-        link: link
+        name: cardname,
+        link: url
       })
     })
   };
 
   // Функция запроса для добавления/удаления лайка 
   changeLikeCardInfo = (cardId, like) => {
-    return request(`${this.baseUrl}/cards/likes/${cardId}`, {
+    return this.request(`${this.baseUrl}/cards/likes/${cardId}`, {
       method: like ? 'PUT' : 'DELETE',
       headers: this.headers
     })
@@ -68,19 +68,22 @@ export default class Api {
 
   // Функция обновления аватара пользователя
   setUserAvatar = (link) => {
-    return request(`${this.baseUrl}/users/me/avatar`, {
+    return this.request(`${this.baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: this.headers,
       body: JSON.stringify({
-        avatar: link
+        avatar: link.url
       })
     })
   }
 
-  deleteCard = (cardId) => {
-    return request(`${this.baseUrl}/cards/${cardId}`, {
+  apiDeleteCard = (cardId) => {
+    return this.request(`${this.baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
-      headers: this.headers
+      headers: this.headers,
+      body: JSON.stringify({
+        _id: cardId
+      })
     })
   }
 }
