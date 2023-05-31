@@ -74,9 +74,12 @@ export default class Card {
     this._likeButton = this._element.querySelector('.card__like');
     this._deleteButton = this._element.querySelector('.card__trash');
 
+
+    this._likeCounter.textContent = this.likes.length.toString();
+
     if (this.isLiked()) {
       this._likeButton.classList.add(this.likeActiveClass);
-      this._likeCounter.textContent = this.likes.length.toString();
+
     }
 
     this._cardImg.alt = this.name;

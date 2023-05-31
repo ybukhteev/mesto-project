@@ -11,7 +11,8 @@ import {
   buttonSubmit,
   formEditProfile,
   formEditCard,
-  formEditAvatar
+  formEditAvatar,
+  avatarBox
 } from './constnts.js';
 
 import { settings } from './utils.js';
@@ -28,12 +29,13 @@ import FormValidator from './FormValidator';
 let currentUserId;
 
 /*
-const profileValidator = new FormValidator(settings, formProfile);
-profileValidator.enableValidation();
+  document.addEventListener("DOMContentLoaded", () => {
+  profilePopup.classList.add("popupTransitions");
+  cardPopup.classList.add("popupTransitions");
+  imagePopup.classList.add("popupTransitions");
+  avatarPopup.classList.add("popupTransitions");
+});
 */
-// Cоздал объект config в котром указал URL и заголовки для fetch запросов
-// Адрес сервера проекта Mesto: https://mesto.nomoreparties.co
-// Передавать токен нужно в каждом запросе
 
 const api = new Api({
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-22', // идентификатор группы plus-cohort-22
@@ -84,8 +86,6 @@ const cardList = new Section({
   '.cards'
 );
 
-
-
 const profilePopup = new PopupWithForm('.popup_edit-profile', {
   handleSubmitForm: ({ username, status }) => {
     return api.setApiUserInfo({ username, status })
@@ -103,8 +103,8 @@ const profilePopup = new PopupWithForm('.popup_edit-profile', {
 profilePopup.setEventListeners();
 
 const avatarPopup = new PopupWithForm('.popup_update-avatar', {
-  handleSubmitForm: (avatar) => {
-    return api.setUserAvatar(avatar)
+  handleSubmitForm: (link) => {
+    return api.setUserAvatar(link)
       .then((res) => {
         user.setUserInfo(res);
       });
@@ -145,13 +145,12 @@ imagePopup.setEventListeners();
 Promise.all([api.getApiUserInfo(), api.getCardList()])
   .then(([userData, cards]) => {
     setUserId(userData._id);
-    console.log(user);
     user.setUserInfo(userData);
     cardList.renderItems(cards);
   })
   .catch((err) => console.log(err));
 
-profileAvatar.addEventListener('click', () => {
+avatarBox.addEventListener('click', () => {
   formEditAvatar.reset();
   avatarValidator.resetReopenError();
   avatarValidator.disableReopenButtonSubmit();

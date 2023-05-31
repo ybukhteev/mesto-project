@@ -77,7 +77,7 @@ export default class Api {
     })
   }
 
-  deleteCard = (cardId) => {
+  apiDeleteCard = (cardId) => {
     return this.request(`${this.baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
       headers: this.headers,
