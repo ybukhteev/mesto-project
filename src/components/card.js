@@ -17,6 +17,8 @@ export default class Card {
     this.likeActiveClass = 'card__like_active';
 
     this._likeClick = this._likeClick.bind(this);
+
+    this._handleDeleteCard = this._handleDeleteCard.bind(this);
   }
 
   // Создаю приватный метод для получения готовой разметки перед размещением на страницу
@@ -36,16 +38,29 @@ export default class Card {
     })
 
     if (this._userId === this.owner) {
-      this._deleteButton.addEventListener('click', (evt) => {
-        this._deleteCard(evt, this._id);
-      });
-    } else {
+      this._deleteButton.addEventListener('click', this._handleDeleteCard);
+    }
+    else {
       this._deleteButton.remove();
     }
   }
 
   isLiked() {
     return Boolean(this.likes.find((item) => item._id === this._userId));
+  }
+
+  _handleDeleteCard(evt) {
+    evt.preventDefault();
+
+    this._deleteCard(this._id)
+      .then((res) => {
+        console.log(res);
+        this._element.remove();
+        this._element = null;
+      })
+      .catch(err => {
+        console.log(`Error on delete card: ${err.message}`)
+      })
   }
 
   _updateLikes(likes) {
@@ -73,6 +88,7 @@ export default class Card {
     this._likeCounter = this._element.querySelector('.card__like_count');
     this._likeButton = this._element.querySelector('.card__like');
     this._deleteButton = this._element.querySelector('.card__trash');
+
 
 
     this._likeCounter.textContent = this.likes.length.toString();

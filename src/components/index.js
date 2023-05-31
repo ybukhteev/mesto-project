@@ -142,14 +142,6 @@ const imagePopup = new PopupWithImage({
 
 imagePopup.setEventListeners();
 
-_deleteCard = (cardElement) => {
-  return api.apiDeleteCard(cardElement._id)
-    .then(() => {
-      cardElement._deleteCard()
-        .catch(err => console.log(err))
-    })
-}
-
 Promise.all([api.getApiUserInfo(), api.getCardList()])
   .then(([userData, cards]) => {
     setUserId(userData._id);
