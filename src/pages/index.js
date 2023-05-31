@@ -13,18 +13,18 @@ import {
   formEditCard,
   formEditAvatar,
   avatarBox
-} from './constnts.js';
+} from '../utils/constnts.js';
 
-import { settings } from './utils.js';
+import { settings } from '../components/utils.js';
 
-import { showPreloader, hidePreloader } from './utils.js';
-import Card from './card';
-import Api from './api';
-import PopupWithForm from './PopupWithForm';
-import PopupWithImage from './PopupWithImage';
-import Section from './Section';
-import UserInfo from './UserInfo';
-import FormValidator from './FormValidator';
+import { showPreloader, hidePreloader } from '../components/utils.js';
+import Card from '../components/card';
+import Api from '../components/api';
+import PopupWithForm from '../components/PopupWithForm';
+import PopupWithImage from '../components/PopupWithImage';
+import Section from '../components/Section';
+import UserInfo from '../components/UserInfo';
+import FormValidator from '../components/FormValidator';
 
 let currentUserId;
 
