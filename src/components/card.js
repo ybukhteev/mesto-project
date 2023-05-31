@@ -1,101 +1,110 @@
-import { cardsTemplate, cardsSection, cardPopup, popupImgs, popupView, popupImgsTitle, cardUserName , cardStatus} from './constnts.js';
-import { closePopup, openPopup } from './modal.js';
-import { addCard, changeLikeCardInfo, deleteCard } from './api.js';
-import { renderLoading } from './utils.js';
-import { getUserId } from './index.js';
+// Объявляю  класс Card
+export default class Card {
+  // В метод конструктора передается  объект с данными карточки, айди текущего юзера, селектор template-элемента карточки 
+  // и объект с тремя обработчиками: открытие попапа с картинкой, лайк
+  constructor(cardData, userId, cardTemplateSelector, { previewImage, changeLike, deleteCard }) {
+    this.cardData = cardData;
+    this.name = cardData.name;
+    this.link = cardData.link;
+    this.likes = cardData.likes;
+    this.owner = cardData.owner._id;
+    this._id = cardData._id;
+    this._userId = userId;
+    this._cardTemplateSelector = cardTemplateSelector;
+    this._previewImage = previewImage;
+    this._changeLike = changeLike;
+    this._deleteCard = deleteCard;
+    this.likeActiveClass = 'card__like_active';
 
-//  функция рендеринга карточек в контейнере
-export const renderCards = (cards) => {
-  cards.forEach((card)=> { 
-    cardsSection.prepend(createCard(card));
-  });
-};
+    this._likeClick = this._likeClick.bind(this);
 
-// Функция открытия попапа картинки
-const previewImage = (data) => {
-  popupView.src = data.link;
-  popupImgs.alt = data.name;
-  popupImgsTitle.textContent = data.name;
-  openPopup(popupImgs);
-}
+    this._handleDeleteCard = this._handleDeleteCard.bind(this);
+  }
 
-const updateLikes = (cardEl, likes, currentUserId) => {
-  const likeButton = cardEl.querySelector('.card__like');
-  const likeCounter = cardEl.querySelector('.card__like-count');
+  // Создаю приватный метод для получения готовой разметки перед размещением на страницу
+  _getElement() {
+    //  Забираю разметку из HTML и клонирую элемент 
+    const cardEl = document.querySelector(this._cardTemplateSelector)
+      .content.querySelector(".card")
+      .cloneNode(true);
+    return cardEl;
+  }
 
-  likeCounter.textContent = likes.length.toString();
-  const isLiked = Boolean(likes.find((item) => item._id === currentUserId));
-  likeButton.classList.toggle('card__like_active', isLiked)
-};
+  _setEventListeners() {
+    this._likeButton.addEventListener('click', this._likeClick);
 
-const likeClick = (cardEl, cardId, currentUserId) => {
-  const likeButton = cardEl.querySelector('.card__like');
-  const isLiked = likeButton.classList.contains('card__like_active');
-  changeLikeCardInfo(cardId, !isLiked)
-    .then((cardData) => {
-      updateLikes(cardEl, cardData.likes, currentUserId);
+    this._cardImg.addEventListener('click', () => {
+      this._previewImage(this.name, this.link);
     })
-    .catch((err) => {
-      console.log(`Ошибка добавления лайка: ${err}`);
-    });
-  };
+
+    if (this._userId === this.owner) {
+      this._deleteButton.addEventListener('click', this._handleDeleteCard);
+    }
+    else {
+      this._deleteButton.remove();
+    }
+  }
+
+  isLiked() {
+    return Boolean(this.likes.find((item) => item._id === this._userId));
+  }
+
+  _handleDeleteCard(evt) {
+    evt.preventDefault();
+
+    this._deleteCard(this._id)
+      .then((res) => {
+        console.log(res);
+        this._element.remove();
+        this._element = null;
+      })
+      .catch(err => {
+        console.log(`Error on delete card: ${err.message}`)
+      })
+  }
+
+  _updateLikes(likes) {
+    this.likes = likes;
+    this._likeButton.classList.toggle(this.likeActiveClass);
+    this._likeCounter.textContent = this.likes.length.toString();
+  }
+
+  _likeClick() {
+    this._changeLike(this._id, !this.isLiked())
+      .then((cardData) => {
+        this._updateLikes(cardData.likes);
+      })
+      .catch((err) => {
+        console.log(`Ошибка добавления лайка: ${err}`);
+      })
+  }
+
+  generate() {
+    // Запишу разметку в приватное поле _element, чтобы у других элементов появился к ней доступ
+    this._element = this._getElement();
+
+    this._cardImg = this._element.querySelector('.card__img');
+    this._cardDescription = this._element.querySelector('.card__desc');
+    this._likeCounter = this._element.querySelector('.card__like_count');
+    this._likeButton = this._element.querySelector('.card__like');
+    this._deleteButton = this._element.querySelector('.card__trash');
 
 
-// Функция создания новой карточки
-export const createCard = ({name, link, likes, owner, _id}) => {
-  const cardEl = cardsTemplate.querySelector('.card').cloneNode(true);
-  const cardImg = cardEl.querySelector('.card__img');
-  
-  const likeButton = cardEl.querySelector('.card__like');
 
-  const deleteBtn = cardEl.querySelector('.card__trash');
+    this._likeCounter.textContent = this.likes.length.toString();
 
-  const currentUserId = getUserId();
+    if (this.isLiked()) {
+      this._likeButton.classList.add(this.likeActiveClass);
 
-  deleteBtn.classList.toggle(
-    'card__trash_hidden',
-    owner._id !== currentUserId
-  )
-  
-  cardEl.querySelector('.card__desc').textContent = name;
-  cardImg.src = link;
+    }
 
-  cardImg.addEventListener('click', () => {
-    previewImage({name, link})
-  });
+    this._cardImg.alt = this.name;
+    this._cardImg.src = this.link;
+    this._cardDescription.textContent = this.name;
 
-  updateLikes(cardEl, likes, currentUserId);
+    this._setEventListeners();
 
-  likeButton.addEventListener('click', () => {
-    likeClick(cardEl, _id, currentUserId);
-  });
-
-deleteBtn.addEventListener('click', () => {
-  deleteCard(_id)
-    .then (() => {
-      cardEl.remove()
-    })
-    .catch((err) => console.log(err))
-})
-
-  return cardEl;
-};
-
-export const handleCardFormSubmit = (evt) => {
-  evt.preventDefault();
-
-  renderLoading(cardPopup, true);
-  addCard({
-    name: cardUserName.value,
-    link: cardStatus.value,
-  })
-    .then((cardData) => {
-      cardsSection.prepend(createCard(cardData));
-      closePopup(cardPopup);
-      evt.target.reset();
-    })
-    .catch((err) => console.log(`Ошибка при добавлении новой карточки на сервер: ${err}`))
-    .finally(() => {
-      renderLoading(cardPopup);
-    })
-  };
+    // Возвращаю элемент в каче стве реузльтата работы метода 
+    return this._element;
+  }
+} 

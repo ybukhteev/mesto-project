@@ -20,8 +20,17 @@ export const popupList = document.querySelectorAll('.popup');
 export const formAddCard = cardPopup.querySelector('.formAddCard');
 export const formSubmit = document.querySelector('.form__submit-add');
 
-export const profileAvatar = document.querySelector('.avatar-box');
+export const profileAvatar = document.querySelector('.profile__avatar');
 export const avatarPopup = document.querySelector('.popup_update-avatar');
 export const formUpdateAvatar = document.querySelector('.profileAvatarEdit');
 export const avatarUpdateInput = document.querySelector('#avatar');
+
+export const buttonSubmit = document.querySelector('.form__submit');
+
+export const formEditProfile = document.querySelector('.formEditProfile');
+export const formEditCard = document.querySelector('.formAddCard');
+export const formEditAvatar = document.querySelector('.profileAvatarEdit');
+
+export const avatarBox = document.querySelector('.avatar-box');
+
 
